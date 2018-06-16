@@ -1,0 +1,11 @@
+# Topics for the meeting:
+1. Persistent group chats [SkyzohKey]
+2. WebRTC support [SkyzohKey]
+3. ToxCon 2018 [SkyzohKey]
+4. Project structure and leadership (who is who and what responsibilities they have) [ullbeking]
+5. Planning common development goals [ingvar1995]
+6. New group chats [ingvar1995]
+7. Bots development [ingvar1995]
+8. Development workflows [ullbeking]
+9. Using Tox on proprietary devices versus libre devices [ullbeking]
+10. Capabilities (features, backward compatibility, implementation) [kurnevsky]
