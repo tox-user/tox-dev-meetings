@@ -1,0 +1,775 @@
+The meeting started at 18:00 UTC+00:00
+<toxync12>	[tox-user@tox] hi everyone
+<toxync12>	[tox-user@tox] ready to start the meeting?
+<toxync12>	[Ingvar@tox] hi
+<sudden6>	hi
+<toxync12>	[tox-user@tox] topics are here: https://github.com/tox-user/tox-dev-meetings/tree/master/23_06_2018
+<iphy>	hi
+<toxync12>	[tox-user@tox] first topic on the list is persistent groups
+<toxync12>	[Ingvar@tox] what is the current state of pgc?
+<toxync12>	[tox-user@tox] suggested by SkyzohKey[m]
+<toxync12>	[tox-user@tox] I've been testing it for months. It works but it's buggy
+<toxync12>	[tox-user@tox] and there is very little progress in the last few months
+<sudden6>	qTox has most of the stuff implemented I think
+<toxync12>	[Ingvar@tox] anybody is trying to fix these bugs?
+<toxync12>	[tox-user@tox] yes but there is one more thing qTox needs
+<toxync12>	[tox-user@tox] when you reconnect to a group it doesn't show you the correct group name
+<toxync12>	[tox-user@tox] so I think it needs to get the name on reconnect
+<toxync12>	[tox-user@tox] it's very annoying. Right now I'm connected to "Groupchat #31"
+<toxync12>	[Ingvar@tox] isotoxin has this feature
+<sudden6>	Ingvar do you know how this is implemented in isotoxin? does it just store the groupname?
+<iphy>	how much time do we allocate to each topic?
+<toxync12>	[tox-user@tox] iphy: it's hard to say. I don't know. Do you have an idea for this? I was thinking we move on to the next one after everything is explained
+<toxync12>	[@tox] hello all, is this where the meeting is?
+<toxync12>	[Ingvar@tox] yes
+<toxync12>	[@tox] hi Ingavar
+<iphy>	ok, sure
+<toxync12>	[Ingvar@tox] hello ullbeking
+<toxync12>	[tox-user@tox] hello
+<sudden6>	this is probably not good, it will drag out the meeting forever
+<toxync12>	[tox-user@tox] yes we just started
+<toxync12>	[Ingvar@tox] toxync: isotoxin dev will answer your question in few minutes :)
+<toxync12>	[tox-user@tox] well I was hoping the person who suggested a given topic would help. SkyzohKey doesn't seem to be here though
+<sudden6>	ah I see :)
+<toxync12>	[@tox] how long is this meeting scheduled for?
+<toxync12>	[tox-user@tox] there is no schedule
+<toxync12>	[tox-user@tox] only a list of topics https://github.com/tox-user/tox-dev-meetings/tree/master/23_06_2018
+<toxync12>	[tox-user@tox] alright so pgc has been in this state for too long
+<toxync12>	[tox-user@tox] what are we gonna do about this?
+<toxync12>	[Ingvar@tox] >anybody is trying to fix these bugs?
+<sudden6>	tox-user IIRC you have written down some buggy test cases, I think we should work on making them real tests
+<toxync12>	[tox-user@tox] yes I found multiple bugs
+<toxync12>	[Ingvar@tox] are these bugs reproducible? can we fix them?
+<toxync12>	[tox-user@tox] I can reproduce some of them. Not sure if other people tried
+<sudden6>	we can probably also use random testing to find out more, but I'm not sure how effective it is
+<toxync12>	[Ingvar@tox] how often these bugs occur and do we have an idea how to fix them?
+<toxync12>	[tox-user@tox] some occur all the time and some occur only sometimes
+<iphy>	random testing helped me nail down a memory leak in pgc: https://github.com/isotoxin/toxcore-vs/issues/3
+<toxync12>	[tox-user@tox] cool
+<toxync12>	[Ingvar@tox] btw are these bugs reproducible with isotoxin initial pgc version?
+<iphy>	hard to tell
+<toxync12>	[tox-user@tox] I don't know. I only use current toxcore
+<iphy>	the memleak is, yes
+<iphy>	if we can write a testcase for the bug, we can test it against the original
+<iphy>	I think writing reproducing test cases is key to finding a fix
+<toxync12>	[tox-user@tox] yeah but aren't we wasting time with tests? Shouldn't we focus on fixing those bugs first and merging pgc?
+<iphy>	tox-user: how to fix if we can't reliably test the fix?
+<sudden6>	tests will help us find the source of the bugs
+<iphy>	also, how to find the bug?
+<toxync12>	[Ingvar@tox] iphy: not really
+<toxync12>	[tox-user@tox] you can test it yourself
+<toxync12>	[Ingvar@tox] sometimes it's faster to fix bug than try to reproduce
+<sudden6>	but we have already a bug that takes days to reproduce, so ...
+<toxync12>	[tox-user@tox] you can reproduce it with my program in minutes
+<toxync12>	[tox-user@tox] you also need qTox or possibly some other client
+<toxync12>	[Ingvar@tox] anyway - are there any active devs who willing fix these bugs?
+<toxync12>	[Ingvar@tox] now looks like no one is working on it
+<toxync12>	[tox-user@tox] pgc is pretty important
+<toxync12>	[Ingvar@tox] pgc won't fix yourself
+<toxync12>	[Ingvar@tox] *itself
+<iphy>	I'll fix the bug if we can reproduce it reliably
+<toxync12>	[tox-user@tox] if it broke by itself...
+<toxync12>	[tox-user@tox] :D
+<toxync12>	[Ingvar@tox] hi DevIsotoxin
+<toxync12>	[tox-user@tox] iphy: have you tried?
+<toxync12>	[Ingvar@tox] we're discussing persistent groups right now
+<toxync12>	[Ingvar@tox] hi e0f
+<toxync12>	[tox-user@tox] I can tell you how to reproduce those bugs. Someone would have to try though. Sometimes it's complicated to explain
+<toxync12>	[isotoxin.im@tox] hi. im here
+<toxync12>	[ullbeking@tox] is zoff99 here or planning on being here?
+<toxync12>	[tox-user@tox] hi
+<sudden6>	foxkjrdyezstogcr: ping
+<toxync12>	[Ingvar@tox] hello isotoxin.im
+<toxync12>	[Ingvar@tox] isotoxin.im:
+<toxync12>	[Ingvar@tox] >we're discussing persistent groups right now
+<iphy>	tox-user: I'm running the bot, how do I make my client crash with it?
+<iphy>	time check: we're 18 minutes in
+<toxync12>	[tox-user@tox] iphy: start it with for example -b 20 to run 20 instances. When it starts it will show Tox IDs from those instances. You need to copy one of them quickly and add them to your friends list in your client
+<toxync12>	[Ingvar@tox] isotoxin.im: did you get any bugs in your original groups implementation? it's still not merged because there few bugs in "reviewed" version
+<toxync12>	[tox-user@tox] iphy: the bot will accept your invite and invite you to its group chat. Join it
+<toxync12>	[Ingvar@tox] ullbeking: he said he won't participate
+<toxync12>	[ullbeking@tox] ok, ty Ingvar
+<toxync12>	[tox-user@tox] iphy: remember that you need to be using toxcore with pgc. After a few minutes of around 20 instances joining and leaving the group the client should crash. If it doesn't try again
+<iphy>	9 connecting...
+<iphy>	should this at some point say connected?
+<toxync12>	[isotoxin.im@tox] my implementations is now workin in current isotoxin. I think it about 80% bug free :)
+<toxync12>	[tox-user@tox] they will start adding each other once they are connected
+<sudden6>	what about the process to get the changes into master?
+<toxync12>	[tox-user@tox] then they will start inviting each other to groups
+<sudden6>	atm it's one huge commit that is continously rebased
+<toxync12>	[tox-user@tox] isotoxin.im: are there any specific bugs that you get?
+<iphy>	sudden6: it'll stay like that
+<iphy>	it will be merged as one commit
+<sudden6>	iphy: ok, why? and how do we efficiently add buf fixes?
+<sudden6>	*bug
+<iphy>	it's possible to split it up, but it takes some work
+<iphy>	adding bug fixes: push to the review branch
+<sudden6>	same for tests?
+<iphy>	yes
+<toxync12>	[isotoxin.im@tox] my first PR to toktok with persistant groupchats has same code that is in current isotoxin. No any bugs i found/fixed
+<toxync12>	[Ingvar@tox] iphy, sudden6: how do you think how many time is required to merge pgc?]
+<toxync12>	[tox-user@tox] so what will be done to finally merge pgc? Hopefully before we get ngc?
+<iphy>	toxic got messed up
+<iphy>	but I don't know whether that's toxic's fault
+<toxync12>	[tox-user@tox] it got messed up during the test? what happened?
+<iphy>	ah no, it's not messed up, never mind
+<toxync12>	[tox-user@tox] oh ok
+<iphy>	I'm just no longer seeing a lot of changes in the group
+<toxync12>	[Ingvar@tox] >iphy, sudden6: how do you think how many time is required to merge pgc?
+<toxync12>	[Ingvar@tox] fix these 2 bugs probably added during refactoring and merge pr?
+<sudden6>	what do you mean with "how many times"?
+<iphy>	yes, and also fix the memory leak
+<toxync12>	[tox-user@tox] how long it will take
+<iphy>	it depends on how well we can reproduce the bugs
+<toxync12>	[Ingvar@tox] what if we won't be able to repdroduce it?
+<toxync12>	[tox-user@tox] I have a feeling noone has tried very hard yet
+<iphy>	if I can reproduce with toxic, I'll write a test client
+<iphy>	so far no crash with toxic
+<toxync12>	[tox-user@tox] wouldn't it be simpler to use qTox for this?
+<iphy>	no, I don't have a gui
+<toxync12>	[tox-user@tox] I see
+<sudden6>	tox-user qTox could also have a bug
+<toxync12>	[tox-user@tox] that's why I reported it in qTox repo but you said the crash was in toxcore
+<iphy>	it's running with 20 now
+<toxync12>	[tox-user@tox] ok
+<toxync12>	[tox-user@tox] this is just one of many bugs though
+<iphy>	ok, I don't know how many there are
+<toxync12>	[tox-user@tox] iphy: are they still joining?
+<iphy>	yes
+<sudden6>	yeah, the crash happens inside toxcore, but it could be a memory corruption from qTox, so we need another client to test
+<iphy>	I mean, joining and leaving all the time
+<toxync12>	[tox-user@tox] but if we use another client and it doesn't crash we won't find out will we?
+<sudden6>	correct
+<sudden6>	but if it crashes we know
+<sudden6>	and if we have a minimal test case we can reproduce in a known and simple environment
+<iphy>	so, to answer the questions
+<iphy>	I'm going to work on pgc
+<iphy>	fixing the bugs
+<iphy>	or, if I can reproduce them in isotoxin, perhaps isotoxin-dev can help fix them
+<toxync12>	[tox-user@tox] ok I'm glad to hear that. I think pgc should be top priority now but that's another topic
+<iphy>	anything else about pgc?
+<iphy>	we're 31 minutes in
+<iphy>	next topic?
+<sudden6>	not from my side
+<iphy>	webrtc support
+<toxync12>	[tox-user@tox] not from me
+<iphy>	SkyzohKey[m] isn't here to pitch it
+<iphy>	toxcon
+<iphy>	foxkjrdyezstogcr?
+<toxync12>	[Ingvar@tox] isotoxin.im: will you have time to look into pgc pr?
+<toxync12>	[tox-user@tox] well wait a second
+<toxync12>	[tox-user@tox] WebRTC is not allow creating a web client
+<sudden6>	> webrtc : IMO very low priority, if even
+<toxync12>	[tox-user@tox] I agree that it's low priority
+<iphy>	toxygen_tox: you there? for ngc
+<toxync12>	[Ingvar@tox] I'm here from Tox :)
+<iphy>	ah cool
+<toxync12>	[tox-user@tox] well I guess SkyzohKey should have been here if he wanted to discuss it so much. I don't even know what he wanted to discuss exactly
+<sudden6>	yep, ok, next topic?
+<toxync12>	[tox-user@tox] toxcon
+<iphy>	foxkjrdyezstogcr
+<sudden6>	well, toxcon is in october
+<sudden6>	he's not here I think
+<toxync12>	[Ingvar@tox] what is planned to show there?
+<sudden6>	the plans are not yet finalized
+<toxync12>	[ullbeking@tox] who is coordinating the programme?
+<iphy>	foxkjrdyezstogcr and robinli, I think
+<sudden6>	but we'll have talks about Tox and some other stuff
+<sudden6>	I'm helping too
+<iphy>	if you have something to talk about, contact sudden6, foxkjrdyezstogcr, or robinli
+<toxync12>	[tox-user@tox] what will the talks be about specifically?
+<toxync12>	[tox-user@tox] about how Tox works?
+<iphy>	anything can be proposed, I suppose
+<sudden6>	yes, anything is allowed
+<toxync12>	[tox-user@tox] toxcore and client development progress?
+<sudden6>	zoff didn't allow me to say specifics yet
+<toxync12>	[tox-user@tox] I see
+<toxync12>	[ullbeking@tox] foxkjrdyezstogcr was encouraging me to speak about a/v issues in tox
+<iphy>	I don't know what SkyzohKey[m] wanted to discuss about toxcon
+<sudden6>	but we'll have an intro talk about what happened since the last toxcon
+<toxync12>	[ullbeking@tox] so there's a deadline for me to submit a talk
+<iphy>	2 july, I think
+<sudden6>	yes, deadline is 2.7.
+<sudden6>	there'll be a talk about qTox
+<toxync12>	[ullbeking@tox] i don't know exactly what i want to talk about, but it will have something to do with audio, video, and digital signal processing
+<toxync12>	[tox-user@tox] nice
+<sudden6>	zoff will talk about his journey in tox too
+<toxync12>	[ullbeking@tox] cool
+<sudden6>	ullbeking: would be great
+<toxync12>	[Ingvar@tox] I think toxcon should be a deadline for some important features. what do you think guys?
+<toxync12>	[ullbeking@tox] yeah, that's kind of what i want to talk about, more of less introduce myself
+<sudden6>	just tell that zoff and he'll reserve a slot
+<toxync12>	[ullbeking@tox] s/of/or
+<toxync12>	[tox-user@tox] sounds good
+<toxync12>	[ullbeking@tox] zoff knows i think
+<toxync12>	[tox-user@tox] what features in particular?
+<toxync12>	[Ingvar@tox] pgc, ngc and probably smth else
+<toxync12>	[tox-user@tox] and what happens if we don't do it on time
+<toxync12>	[ullbeking@tox] oops, i think that q was directed at Ingvar
+<iphy>	we'll be sad :)
+<toxync12>	[Ingvar@tox] than we will be able to show new features on toxcon
+<iphy>	(no crash yet)
+<toxync12>	[isotoxin.im@tox] I will check this (c-toxcore/pull/826) code. As I understand there is memory corrupt?
+<sudden6>	toxcon is also to get to know each other, so it's open end in the evening and we plan to do some hacking
+<toxync12>	[tox-user@tox] :D
+<sudden6>	tox-user will you attend toxcon?
+<toxync12>	[tox-user@tox] sudden6: I don't know yet, sorry
+<sudden6>	ok
+<iphy>	isotoxin: I don't know, it's still a possibility that qtox corrupts memory somewhere
+<iphy>	I haven't been able to reproduce with toxic
+<sudden6>	more infos about toxcon will come latest 20.8.
+<toxync12>	[tox-user@tox] iphy: try again
+<iphy>	I'll try again
+<iphy>	every 10 minutes
+<sudden6>	ok, I have nothing to add for toxcon
+<toxync12>	[ullbeking@tox] do we have a venue?
+<iphy>	yes
+<iphy>	robinli has a venue
+<toxync12>	[ullbeking@tox] where?
+<toxync12>	[ullbeking@tox] cool
+<iphy>	in vienna
+<toxync12>	[ullbeking@tox] i know that!
+<toxync12>	[Ingvar@tox] next topic?
+<sudden6>	yep, the venue is pretty central and easily reachable via underground metro
+<iphy>	project structure
+<toxync12>	[Ingvar@tox] Project structure and leadership (who is who and what responsibilities they have) [ullbeking]
+<iphy>	ullbeking: pitch your topic?
+<toxync12>	[ullbeking@tox] i'm new to the project and i'm just trying to work out who is who, especially if there is some sort of leadership structure
+<iphy>	there was, for a short time
+<toxync12>	[tox-user@tox] :D
+<toxync12>	[ullbeking@tox] i got the impression that iphy was the leader of the project but i don't think they are really
+<iphy>	but nobody who currently works on toxcore was present at that time
+<sudden6>	TBH I'm old to the project and I can't find a leadership structure :DD
+<toxync12>	[tox-user@tox] yep!
+<toxync12>	[tox-user@tox] what structure?
+<toxync12>	[ullbeking@tox] ok
+<toxync12>	[ullbeking@tox] that's cool by me
+<iphy>	I made a project plan and structure, and there were people owning areas of development
+<toxync12>	[tox-user@tox] yeah so I was thinking of applying to sfconservancy for toxcore
+<toxync12>	[tox-user@tox] but then I realised I didn't know who project leaders were
+<sudden6>	I guess there are "leaders" for the clients, but this is mostly based on who does the most work
+<toxync12>	[Ingvar@tox] iphy: where is this plan?
+<iphy>	I'll dig it up
+<toxync12>	[Ingvar@tox] is it public?
+<iphy>	yes
+<toxync12>	[tox-user@tox] but hard to find
+<sudden6>	I think there's nothing secret in Tox/Toktok
+<toxync12>	[ullbeking@tox] i think it would be useful just for pr purposes or whatnot if we had one or a few de facto leaders, or official representatives
+<sudden6>	besides secret keys
+<toxync12>	[tox-user@tox] sudden6: and messages! :D
+<toxync12>	[ullbeking@tox] i'm not saying we should decide this now
+<iphy>	it was never finalised and published on the website because people don't want to do the grunge work that is needed for this project to become healthy
+<toxync12>	[tox-user@tox] ullbeking: there is no organisation so not possible
+<sudden6>	ullbeking: I agree with you, but I have seen this fail already a few times
+<toxync12>	[ullbeking@tox] ok
+<sudden6>	people come and go, disappear and reappear...
+<toxync12>	[ullbeking@tox] i'm not insisting on anything, i'm just throwing ideas out there
+<iphy>	nobody wants to write tests
+<iphy>	or refactor code
+<iphy>	only new features
+<toxync12>	[Ingvar@tox] I think we should choose common goals and then divide our responsibilities
+<sudden6>	yes
+<iphy>	adding tech debt
+<toxync12>	[tox-user@tox] so to answer your question: there are no responsibilities here but there are some people that do a lot of work in their area
+<toxync12>	[ullbeking@tox] and as a newcomer, it's better, anyway, if i just roll along and experience tox for a while before pushing for anything in particular
+<toxync12>	[ullbeking@tox] ok tox-user, that's a good summary
+<toxync12>	[tox-user@tox] we need features though
+<sudden6>	maybe we should add a rule that for every new feature commit there have to be 10 fix commits before
+<toxync12>	[ullbeking@tox] what features does a core cryptographic library need?
+<iphy>	yes, we need features, and development velocity would be so much higher if the code base weren't such a mess
+<toxync12>	[ullbeking@tox] aside from networking capability?
+<toxync12>	[tox-user@tox] that's a terrible rule. All commits in toxcore since a few months are fixes or refactors. When have we had a new feature?
+<iphy>	tox-user: the problem is
+<sudden6>	tox-user that was a joke ;)
+<toxync12>	[tox-user@tox] :D
+<toxync12>	[ullbeking@tox] tox-user: what rule?
+<iphy>	there are a few large feature PRs in the pipeline
+<iphy>	we can't do proper refactoring yet
+<iphy>	because that would break those PRs really badly
+<iphy>	so basically we just have to get those PRs in a slightly ok shape
+<iphy>	merge
+<iphy>	and then start fixing the code
+<toxync12>	[ullbeking@tox] that's not good reasoning
+<iphy>	ullbeking: what would you suggest?
+<toxync12>	[ullbeking@tox] it depends on how long it would take to merge the PRs
+<toxync12>	[Ingvar@tox] pgc pr was opened 1.5 years ago
+<toxync12>	[Ingvar@tox] still not merged
+<sudden6>	I think I brought that up last time, but maybe we should branch of the current state as a release branch
+<iphy>	something we can't do for example: use net_pack functions instead of memcpy'ing integers into the network
+<toxync12>	[ullbeking@tox] either commit to merging the PRs the refactoring, or refactor and then fix the PRs
+<toxync12>	[ullbeking@tox] if a PR is just languishing, then put it in the attic and move on because then it's just slowing things down and consuming mental cycles
+<iphy>	it would be incredibly painful to do the PR fixing
+<toxync12>	[@tox] we can't focus on everything. There are only a few people working on toxcore
+<iphy>	so
+<iphy>	let's fix pgc
+<iphy>	merge it
+<toxync12>	[@tox] I agree
+<toxync12>	[ullbeking@tox] me too
+<sudden6>	ok
+<iphy>	then get ngc in a state where it's at least as good as ngc before ingvar's fixes
+<sudden6>	full steam on fixing pgc
+<iphy>	merge that
+<toxync12>	[@tox] yes please
+<iphy>	then get zoff's video fixes in
+<iphy>	and then we can do refactoring
+<toxync12>	[Ingvar@tox] btw what is current state of video fixes?
+<toxync12>	[@tox] ullbeking: is that question answered then?
+<sudden6>	sounds like 1.5 years dev time?
+<toxync12>	[ullbeking@tox] don't forget that PR's are a two-way thing, i.e., you're supposd to sync up with the base branch every now and then
+<toxync12>	[ullbeking@tox] tox-user: yes
+<iphy>	ullbeking: all the PRs are constantly rebased
+<iphy>	and tested
+<toxync12>	[ullbeking@tox] any policy re: rebasing vs merging?
+<sudden6>	ullbeking: rebase
+<toxync12>	[ullbeking@tox] ok
+<toxync12>	[@tox] can we move on to the next topic?
+<toxync12>	[ullbeking@tox] ok
+<sudden6>	ok
+<toxync12>	[@tox] Planning common development goals [Ingvar]
+<sudden6>	didn't we just do this?
+<iphy>	https://docs.google.com/document/d/e/2PACX-1vTW57WeCA6yFrH-IfLczapmtE4HT5kA_mFBHAPo7zfzhEneg0N49o3vp2qT-4Br7BQkUeLYwmZYeIP7/pub
+<iphy>	that was the original project plan by the way
+<toxync12>	[@tox] I think it's for the future
+<toxync12>	[@tox] not only now but some kind of plan
+<toxync12>	[ullbeking@tox] this is a nice doc
+<toxync12>	[Ingvar@tox] most of devs from this plan are inactive now
+<iphy>	right
+<iphy>	(tox-user: still no crash)
+<toxync12>	[Ingvar@tox] e0f, tux3: ping
+<iphy>	I'm trying one more time with toxic
+<iphy>	so, new group chats?
+<toxync12>	[@tox] iphy: are you running with pgc?
+<sudden6>	heh, I think I'm still in plan :DD
+<iphy>	yes
+<tux3>	toxync12, hey
+<tux3>	I'm lurking :]
+<iphy>	both toxic and the bot are pgc
+<toxync12>	[@tox] iphy: hmm maybe it doesn't work with toxic or me being able to reproduce it was an accident
+<iphy>	did you reproduce with toxic?
+<toxync12>	[@tox] hey
+<iphy>	ingvar: what about bot development?
+<toxync12>	[@tox] no, I only tried with qTox
+<toxync12>	[Ingvar@tox] tux3: are you still willing to contribute into toxcore?
+<toxync12>	[@tox] bot development is a topic for later
+<iphy>	ok
+<toxync12>	[Ingvar@tox] iphy, wait, we didn't finish with topic #5 :)
+<iphy>	ah
+<toxync12>	[@tox] why do we need a plan?
+<toxync12>	[@tox] why do we need a common goal?
+<iphy>	if we have a plan, we can put all resources into the same thing
+<toxync12>	[Ingvar@tox] yes
+<tux3>	Ingvar@tox: I can't promise much except being around, but as you know I'm not actively contributing code these days
+<iphy>	so we can finish one thing
+<toxync12>	[Ingvar@tox] and do it faster
+<iphy>	and then move on to the next
+<toxync12>	[@tox] sounds great
+<iphy>	instead of doing 5 things, really really slowly
+<iphy>	it's also more motivating to work together on a thing
+<toxync12>	[Ingvar@tox] so we're going to concentrate on pgc and later ngc?
+<toxync12>	[@tox] definitely
+<toxync12>	[ullbeking@tox] doesn't that contradict the "everybody works on whatever they want" ethos?  or is that precisely what we're discussing?
+<iphy>	I'd say yes
+<toxync12>	[ullbeking@tox] ok
+<iphy>	ullbeking: yes, indeed
+<toxync12>	[@tox] ullbeking: yes it's what we want to improve
+<toxync12>	[ullbeking@tox] ok
+<iphy>	I think that's not a very effective ethos
+<sudden6>	everybody works on whatever they want sounds nice, but is not efficient
+<toxync12>	[ullbeking@tox] iphy: what isn't?
+<iphy>	what sudden6 says
+<toxync12>	[@tox] people can still work on whatever they want but within that plan right?
+<toxync12>	[Ingvar@tox] btw I think we can finish both pgc and ngc before toxcon
+<toxync12>	[ullbeking@tox] iphy: this is why some sort of leadership can be helpful, i.e., who chooses the priorities?
+<toxync12>	[@tox] so it's not like they will be forced to do something they don't want to
+<iphy>	yes I think so too
+<sudden6>	well you can't really force someone to execute the plan...
+<toxync12>	[Ingvar@tox] talking about dealines it's good deadline because we have to show development progress on toxcon :D
+<toxync12>	[@tox] true
+<sudden6>	:D
+<toxync12>	[@tox] yeah
+<toxync12>	[Ingvar@tox] also I have a ? about plan
+<iphy>	I think if we all work on getting pgc done, and 2 people don't like working on pgc, then those 2 people will be slightly annoyed for a while, but then we move on to e.g. ngc, and those 2 people will be happy, but maybe 1 other person won't be
+<toxync12>	[Ingvar@tox] will we spent time on pr's with minor refactoring?
+<sudden6>	To formalize the plan, with the priorities, shoul we use GH projects?
+<iphy>	I do think we should work together, even if sometimes it means some of us don't do our favourite thing
+<toxync12>	[Ingvar@tox] sudden6: agree, good idea
+<toxync12>	[tox-user@tox] if someone doesn't want to, they can still help with some minor things
+<iphy>	ingvar: no, I'd rather not spend more time on minor refactorings
+<toxync12>	[Ingvar@tox] >I do think we should work together, even if sometimes it means some of us don't do our favourite thing
+<toxync12>	[Ingvar@tox] totally agree
+<toxync12>	[Ingvar@tox] I think refactoring takes too much time these days
+<toxync12>	[tox-user@tox] so we agree we need common goals. How do we do that?
+<iphy>	how about
+<iphy>	a text file :)
+<sudden6>	I'd also be fine with a text file
+<iphy>	with a bullet list of things we want to do in order
+<sudden6>	Markdown?
+<toxync12>	[Ingvar@tox] instead of github projects?
+<sudden6>	and checkboxes?^^
+<iphy>	yes
+<toxync12>	[ullbeking@tox] Am I the only person who doesn't like Markdown?
+<toxync12>	[Ingvar@tox] in gp we will see current progress and project state
+<toxync12>	[Ingvar@tox] it's easy to check active/planned features there
+<iphy>	we're a pretty small team though
+<toxync12>	[Ingvar@tox] md is less convenient
+<iphy>	well ok
+<sudden6>	problem is, I think we need some sort of "project manager" that reminds people on what they need to do
+<iphy>	1 bug then?
+<sudden6>	ie, so we don't loose focus
+<iphy>	GH projects are fine too
+<iphy>	(no crash :()
+<iphy>	I'm going to try to get a qtox running in vnc
+<sudden6>	iphy: maybe it's a qTox problem then, but that would actually be good
+<toxync12>	[tox-user@tox] ullbeking: I don't like markdown
+<toxync12>	[ullbeking@tox] tox-user: it's a very poor markup language
+<iphy>	are we done with 5?
+<toxync12>	[tox-user@tox] it's not very intuitive in my opinion
+<toxync12>	[tox-user@tox] but wait
+<toxync12>	[ullbeking@tox] what isn't intuitive?
+<toxync12>	[tox-user@tox] how do we come up with the list?
+<sudden6>	iphy: as soon as we have a thing to write the plan down I think so
+<toxync12>	[tox-user@tox] ullbeking: markdown
+<toxync12>	[tox-user@tox] sudden6: good idea with a manager
+<sudden6>	Idea for the list: just start with the pgc and ngc as main points
+<toxync12>	[tox-user@tox] hmm maybe we create the list at the next meething?
+<iphy>	I'd be happy to come out of this with just focussing on PGC
+<toxync12>	[Ingvar@tox] btw I have github project for ngc
+<iphy>	PGC and NGC
+<sudden6>	Ingvar can you link it?
+<iphy>	as in, we know we will work on NGC next, but we'll need to distribute tasks by the time we get to it
+<toxync12>	[Ingvar@tox] https://github.com/ingvar1995/toxcore/projects/1?fullscreen=true
+<toxync12>	[tox-user@tox] true
+<sudden6>	ingvar very nice :)
+<toxync12>	[Ingvar@tox] time for next topic?
+<toxync12>	[Ingvar@tox] New group chats
+<toxync12>	[Ingvar@tox] xD
+<sudden6>	:DD
+<iphy>	ingvar: cool, that looks good
+<toxync12>	[tox-user@tox] :D
+<toxync12>	[tox-user@tox] what do you think about coming up with tasks on the next meeting?
+<iphy>	sounds good
+<sudden6>	yep
+<toxync12>	[tox-user@tox] great!
+<sudden6>	so #6?
+<toxync12>	[tox-user@tox] yeah
+<toxync12>	[tox-user@tox] new group chats
+<toxync12>	[tox-user@tox] the list of features is very impressive
+<toxync12>	[tox-user@tox] but I'm a little disappointed that banning will not be very effective
+<toxync12>	[Ingvar@tox] are we going to merge ngc w/o group audio for start and implement this important feature later?
+<sudden6>	tox-user are you ok when I open an issue in your tox-dev-meetings repo with actions carried over from this one?
+<toxync12>	[ullbeking@tox] what actually is the issue about new group chats?
+<toxync12>	[tox-user@tox] sudden6: go ahead!
+<toxync12>	[Ingvar@tox] ullbeking: new gc are rewritten implementation of current gc with more features
+<toxync12>	[Ingvar@tox] but development stuck few years ago. I'm continuing it
+<toxync12>	[tox-user@tox] sudden6: it's a really good idea. I think it might also be useful to include the log after we are done
+<sudden6>	log + summary, no one will read the full log
+<toxync12>	[tox-user@tox] yes
+<toxync12>	[ullbeking@tox] ty Ingvar
+<sudden6>	Ingvar we should merge ngc without audio first IMO
+<sudden6>	spillover issue: https://github.com/tox-user/tox-dev-meetings/issues/2
+<toxync12>	[Ingvar@tox] ullbeking: https://github.com/ingvar1995/toxcore/blob/new_gc/docs/Group-Chats.md
+<toxync12>	[Ingvar@tox] list of features
+<toxync12>	[Ingvar@tox] sudden6: I think we should fix pgc before next meeting :D
+<sudden6>	well if we fix it in one week that would be great :DD
+<sudden6>	if it's fixed I'll remove it
+<toxync12>	[tox-user@tox] haha yeah!
+<toxync12>	[tox-user@tox] it would be amazing
+<toxync12>	[Ingvar@tox] anyway we should start before next meeting
+<toxync12>	[tox-user@tox] yeah
+<sudden6>	true, we can always do this after this meeting on the fly for the first task
+<toxync12>	[tox-user@tox] if we merge ngc without audio
+<sudden6>	s
+<toxync12>	[tox-user@tox] that means audio group chats won't have all of the features for some time?
+<toxync12>	[tox-user@tox] they will be missing some?
+<sudden6>	yes
+<sudden6>	I think we can accept that for getting ngc-text faster?
+<toxync12>	[Ingvar@tox] in ngc there is no difference between audio and text chats now
+<toxync12>	[Ingvar@tox] and I think it's better not to separate them
+<toxync12>	[tox-user@tox] yes sounds like a good compromise
+<toxync12>	[tox-user@tox] unless we can get that audio
+<sudden6>	Ingvar is it even possible not to implement/enable audio first?
+<toxync12>	[tox-user@tox] motivate some some people to work on it
+<toxync12>	[ullbeking@tox]    i can have a look
+<toxync12>	[tox-user@tox] that would be great!
+<toxync12>	[Ingvar@tox] cool
+<toxync12>	[ullbeking@tox] i need some coaching first, to know what i'm supposed to be look for, though
+<toxync12>	[tox-user@tox] maybe Ingvar can help you with that?
+<toxync12>	[ullbeking@tox] i'll just ping people on IRC whenever i'm working on it
+<toxync12>	[Ingvar@tox] >[sudden6@irc] Ingvar is it even possible not to implement/enable audio first?
+<toxync12>	[Ingvar@tox] I think yes
+<toxync12>	[Ingvar@tox] >maybe Ingvar can help you with that?
+<toxync12>	[Ingvar@tox] sure
+<sudden6>	I'm not familar with ngc, but I know a bit of stuff about c-toxcore, so feel free to ping me too
+<toxync12>	[tox-user@tox] who uses IRC? :D
+<toxync12>	[ullbeking@tox] Ingvar: ty
+<sudden6>	you can also find my ToxID in my GH profile
+<toxync12>	[tox-user@tox] mine too
+<toxync12>	[ullbeking@tox] Ingvar: a high-level code-workthrough so that i can understand the architecture and dependencies would be a good start
+<toxync12>	[Ingvar@tox] ok
+<sudden6>	anything else about ngc?
+<toxync12>	[tox-user@tox] Ingvar: ?
+<toxync12>	[Ingvar@tox] what about splitting current tasks among active devs?
+<sudden6>	what do you mean exactly?
+<toxync12>	[tox-user@tox] hmm
+<toxync12>	[tox-user@tox] first we need pgc though
+<iphy>	tox-user: toxic doesn't show any people joining
+<sudden6>	yeah, I agree, we already said to focus on pgc until merged
+<iphy>	with pgc
+<toxync12>	[tox-user@tox] iphy: can you see the output from the program?
+<iphy>	the bot is busy doing stuff, yes
+<toxync12>	[tox-user@tox] what are they doing?
+<iphy>	joining/leaving
+<iphy>	I see 0 people in the group
+<iphy>	I think that's a toxic bug
+<toxync12>	[tox-user@tox] hmm wait
+<iphy>	I can't get qtox to work
+<toxync12>	[tox-user@tox] it might be another pgc bug
+<toxync12>	[tox-user@tox] sometimes you just don't reconnect
+<toxync12>	[Ingvar@tox] sudden6: I mean that devs could assign themselves to tasks in open state
+<toxync12>	[tox-user@tox] what happened? why are there 0 people?
+<sudden6>	Ingvar ah, yeah why not?
+<iphy>	should we talk about bots?
+<toxync12>	[tox-user@tox] we should assign tasks just like with pgc
+<iphy>	let's work on pgc after the meeting
+<sudden6>	but we should define a Missing in Action timeout
+<toxync12>	[tox-user@tox] bots are the next topic
+<sudden6>	but lets postpone that to when we start working on ngc
+<iphy>	ingvar: bots
+<toxync12>	[tox-user@tox] bots development
+<toxync12>	[Ingvar@tox] as longer I have board on github with opened tasks - feel free to ping me in case you will have time to start any task :)
+<toxync12>	[Ingvar@tox] bots development is another important thing
+<toxync12>	[tox-user@tox] tell us more
+<toxync12>	[Ingvar@tox] I think we need new groupbot and better irc sync bots
+<sudden6>	For bots development Diadlo started a small framework in python: https://github.com/Diadlo/PyToxBot
+<toxync12>	[tox-user@tox] I agree
+<iphy>	we should have an irc gateway
+<sudden6>	Ingvar agree too
+<toxync12>	[Ingvar@tox] I started my own framework too. not small btw)
+<iphy>	with 1 irc connection per tox user
+<toxync12>	[tox-user@tox] iphy: can you explain in detail how a gateway works?
+<iphy>	and vice versa
+<sudden6>	Ingvar where can I find it?
+<toxync12>	[Ingvar@tox] in pure python3'
+<iphy>	we need to get freenode to accept us as a gateway
+<iphy>	we can run the gateway on tox.chat
+<toxync12>	[Ingvar@tox] sudden6: https://github.com/toxygen-project/bot-platform
+<toxync12>	[tox-user@tox] https://github.com/toxygen-project/bot-platform
+<toxync12>	[Ingvar@tox] I'm going to add a lot of staff like basic comands and add support for both old and new gc
+<toxync12>	[tox-user@tox] how does a gateway work though?
+<toxync12>	[Ingvar@tox] e0f: around?
+<toxync12>	[tox-user@tox] also envoy
+<toxync12>	[tox-user@tox] but he said he preferred to work with go language
+<toxync12>	[tox-user@tox] I agree that we need new bots
+<sudden6>	I think also groupbot will be unmaintained soon
+<toxync12>	[tox-user@tox] currently every bot has different missing features
+<toxync12>	[tox-user@tox] groupbot is the worst of them
+<toxync12>	[tox-user@tox] no logs, no autoinvite
+<toxync12>	[Ingvar@tox] sudden6: why do you think so?
+<toxync12>	[tox-user@tox] no permanent groups
+<sudden6>	Ingvar the maintainer said it :DD
+<toxync12>	[Ingvar@tox] oh
+<sudden6>	Ingvar do you use the official py-toxcore-c or your own wrapper for toxcore?
+<toxync12>	[Ingvar@tox] my own. pure python wrapper
+<toxync12>	[tox-user@tox] so I suggest we create a new group bot that also has an IRC feature. We will combine groupbot and all sync bots into one good bot that has logs and other important feature
+<toxync12>	[Ingvar@tox] also I thought about sync bot for old and new gc
+<sudden6>	iphy: is py-toxcore-c still maintained?
+<iphy>	(90 minutes)
+<iphy>	sudden6: yes, by me
+<toxync12>	[Ingvar@tox] with bot platform it won't be too difficult I hope
+<sudden6>	ok, also well tested and used by something?
+<iphy>	it's tested daily
+<sudden6>	I meant tested in the real word :D
+<iphy>	I use it for prototyping small things
+<iphy>	I don't know if anything uses it
+<sudden6>	ok
+<toxync12>	[ullbeking@tox] iphy: where is py-toxcore-c maintained?
+<iphy>	http://github.com/TokTok/py-toxcore-c
+<toxync12>	[Ingvar@tox] my own wrapper is used by my client and few bots :)
+<sudden6>	IMO we should maybe spend our focus on one python wrapper
+<sudden6>	IDC which one it is
+<toxync12>	[ullbeking@tox] awesome
+<iphy>	yes, when I imported a python wrapper, I chose the one that has the best tests
+<iphy>	without tests, I can't maintain the thing
+<toxync12>	[ullbeking@tox] Ingvar: which is your set of Python bindings?
+<toxync12>	[ullbeking@tox] (Particularly interested as a Python dev.)
+<sudden6>	yep I agree, tests are important, but to mee the tests in py-toxcore-c don't look very convincing...
+<toxync12>	[Ingvar@tox] ullbeking: https://github.com/toxygen-project/toxygen/tree/next_gen/toxygen/wrapper
+<toxync12>	[tox-user@tox] lost connection :/
+<iphy>	sudden6: why?
+<iphy>	anyway, they had the best tests :)
+<iphy>	most wrappers have no tests at all
+<toxync12>	[ullbeking@tox] hey all, stepping afk for 5 minutes
+<iphy>	ok, when you're back, we talk about dev workflows?
+<sudden6>	iphy: at first glance it looks like it's a bit short, but maybe I'm wrong
+<toxync12>	[tox-user@tox] so what about bot development?
+<sudden6>	Ingvar do you have tests for your wrapper?
+<toxync12>	[Ingvar@tox] my client is my wrapper test
+<toxync12>	[Ingvar@tox] xD
+<toxync12>	[tox-user@tox] Toxygen uses it
+<toxync12>	[Ingvar@tox] and few my old bots too
+<iphy>	sudden6: it tests all the things except A/V
+<toxync12>	[tox-user@tox] bot-platform does too right?
+<toxync12>	[Ingvar@tox] yes
+<sudden6>	tox-user: I think in the short term we need a replacement for Groupbot, ideally with a tested backend
+<sudden6>	I'll put that on the list for next meeting
+<toxync12>	[tox-user@tox] I agree but if that new group bot also had groups from IRC that would be awesome right?
+<sudden6>	tox-user what do you mean with "groups from IRC" exactly?
+<toxync12>	[Ingvar@tox] sudden6: I'm trying to implement arch in bot platform which will be easy to test
+<toxync12>	[Ingvar@tox] and easy to extend
+<sudden6>	Ingvar very good
+<toxync12>	[tox-user@tox] I mean that it will also have features of IRC sync bots like toxync
+<toxync12>	[tox-user@tox] so there will be regular groups in it like Tox Public Chat and also ones that are synced to IRC like #toktok
+<sudden6>	ahh, I think we can postpone that a bit
+<toxync12>	[tox-user@tox] I guess I will have to make my own separate bot then
+<toxync12>	[ullbeking@tox] back now
+<sudden6>	well, if we agree on bot-platform it shouldn't be too hard to merge?
+<toxync12>	[tox-user@tox] it shouldn't
+<toxync12>	[tox-user@tox] if bot-platform could have modules or something
+<toxync12>	[tox-user@tox] IRC sync could be one of them
+<toxync12>	[tox-user@tox] and logging could be another one
+<sudden6>	probably best to discuss that with Ingvar directly afterwards :)
+<toxync12>	[tox-user@tox] ok
+<toxync12>	[Ingvar@tox] next topic?
+<sudden6>	ok
+<toxync12>	[Ingvar@tox] Development workflows [ullbeking]
+[21:42:27 CEST] 	 * sudden6 afk 2min
+<iphy>	who wrote minitox again?
+<iphy>	it segfaults :(
+<toxync12>	[tox-user@tox] the guy from github I forgot his name
+<toxync12>	[ullbeking@tox] i wanted to know if there's any sort of standardized development workflow?
+<toxync12>	[tox-user@tox] iphy: does it segfault when connected to a group?
+<toxync12>	[ullbeking@tox] what does it have to do with minitox?
+<iphy>	tox-user: when it gets an invite
+<toxync12>	[tox-user@tox] he is testing pgc
+<iphy>	* (null) invites you to a group(try `/accept` to see)
+<iphy>	sorry
+<toxync12>	[tox-user@tox] lol
+<iphy>	back on topic
+<toxync12>	[tox-user@tox] so I guess that's not pgc crash?
+<iphy>	no
+<iphy>	ullbeking: generally
+<iphy>	make a PR -> people review it with reviewable -> you make changes, click "Done" or respond otherwise in reviewable -> merge when green
+<toxync12>	[ullbeking@tox] ok, that's pretty standard
+<iphy>	we use Reviewable for the review workflow
+<toxync12>	[ullbeking@tox] what about tests?
+<toxync12>	[tox-user@tox] all commits need to be PGP signed
+<iphy>	tests are run on travis
+<iphy>	you can run them locally as well
+<iphy>	"make test"
+<toxync12>	[ullbeking@tox] yeah local test
+<iphy>	we use the cmake build
+<iphy>	you can use autotools, and that's a supported way of building toxcore, but not all tests are hooked up to that build, and it's not actively maintained
+<toxync12>	[ullbeking@tox] who is most knowledgeable about the cmake configuration?  i already have encountered potential improvements
+<iphy>	we keep it working
+<iphy>	ullbeking: then probably you :)
+<toxync12>	[ullbeking@tox] lol
+<toxync12>	[tox-user@tox] :D
+<iphy>	and second to you, maybe me
+<toxync12>	[ullbeking@tox] i'll use git blame and find out why something was written the way it was
+<iphy>	I wrote most of it
+<iphy>	and I wrote it this way because I didn't know better :)
+<toxync12>	[ullbeking@tox] that's the thing about "improvements".  maybe something that looks silly at first was written that way with a good reason in mind.
+<iphy>	so I'm happy to get improvements
+<toxync12>	[ullbeking@tox] ok
+<toxync12>	[tox-user@tox] post an issue on github about this
+<toxync12>	[ullbeking@tox] i already got help from the folk in #cmake
+<iphy>	yes, or make a PR
+<sudden6>	> maybe something that looks silly at first was written that way with a good reason in mind. | then it's at least missing a comment :)
+<toxync12>	[ullbeking@tox] ok, but this requires me to learn cmake (this is the first cmake project i've ever contributed to ;-)
+<toxync12>	[tox-user@tox] you don't have to learn cmake if you are not going to work on cmake scripts
+<toxync12>	[tox-user@tox] just learn how to use it
+<toxync12>	[ullbeking@tox] that's the problem
+<toxync12>	[tox-user@tox] learn how to build toxcore
+<toxync12>	[ullbeking@tox] i had to dig into the cmake scripts to get it to do what i needed
+<toxync12>	[ullbeking@tox] "building toxcore" wasn't enough
+<toxync12>	[tox-user@tox] hmm ok
+<sudden6>	if you're not using a special setup, it should build out of the box
+<toxync12>	[ullbeking@tox] tox-user: where have you got toxcore installed?
+<toxync12>	[tox-user@tox] ullbeking: I don't know /usr/lib somewhere
+<sudden6>	default would be /usr/local/lib for most distros
+<toxync12>	[tox-user@tox] yes I have it there
+<toxync12>	[ullbeking@tox] when i develop third-party projects i install them in my home directory or somewhere else nonstandard.
+<toxync12>	[tox-user@tox] I have multiple versions there :O
+<toxync12>	[ullbeking@tox] hang on, step back
+<toxync12>	[tox-user@tox] how does qTox know which one to use?
+<toxync12>	[ullbeking@tox] we're getting into too much detail for this meeting
+<sudden6>	ullbeking: true
+<sudden6>	anything else for that topic?
+<toxync12>	[ullbeking@tox] we should table this for detailed discussion with relevant folk another time
+<toxync12>	[ullbeking@tox] i will ask when i think of something ;-)
+<toxync12>	[ullbeking@tox] that's enough for now
+<toxync12>	[tox-user@tox] right then it's time for: Using Tox on proprietary devices versus libre devices [ullbeking]
+<toxync12>	[ullbeking@tox] yes
+<toxync12>	[ullbeking@tox] here's the context...
+<toxync12>	[ullbeking@tox] i only use tox (and gnupg, etc) on my librebooted x200.  i don't trust such sensitive comms to my iphone.
+<toxync12>	[ullbeking@tox] i want to know if there is any policy in toxcore regarding thigs
+<toxync12>	[ullbeking@tox] this*
+<sudden6>	short answer: no
+<toxync12>	[tox-user@tox] there isn't
+<toxync12>	[ullbeking@tox] ok
+<toxync12>	[tox-user@tox] people use Tox even on Windows
+<toxync12>	[tox-user@tox] and MacOS
+<toxync12>	[ullbeking@tox] that's much better than nothing
+<toxync12>	[ullbeking@tox] ok, that answers my question
+<sudden6>	longer answer: I think it would be detriminal to Tox spreading if we don't allow it
+<iphy>	minitox is incredibly buggy :(
+<toxync12>	[tox-user@tox] oh :(
+<toxync12>	[tox-user@tox] maybe it wasn't a good idea to post it in our repo without testing
+<sudden6>	lets rewrite it in C++ to make it less buggy :P
+<iphy>	it's not in our repo
+<toxync12>	[tox-user@tox] ok good
+<iphy>	it's linked from the toxins repo
+<toxync12>	[tox-user@tox] haha
+<toxync12>	[tox-user@tox] rewrite it in python
+<toxync12>	[tox-user@tox] it will be even more mini then
+<toxync12>	[tox-user@tox] microtox
+<sudden6>	> rewrite it in python, hmm could actually be a good idea
+<toxync12>	[Ingvar@tox] lol
+<sudden6>	python is a good entry into programming, maybe even for tox
+<toxync12>	[ullbeking@tox] why not just remove it
+<toxync12>	[tox-user@tox] yeah I agree it's good :)
+<toxync12>	[ullbeking@tox] a cli client that makes use of the python bindings would be sweet
+<sudden6>	should we skip the last meeting point?
+<toxync12>	[ullbeking@tox] actually, with multiple windows, etc, that's much harder than it seems
+<sudden6>	kurnevsky is not here I think
+<toxync12>	[tox-user@tox] Toxic is a cli client but it's in C or C++
+<toxync12>	[Ingvar@tox] kurnevsky: around?
+<toxync12>	[tox-user@tox] Toxygen is in python but it has GUI
+<toxync12>	[tox-user@tox] Capabilities (features, backward compatibility, implementation) [kurnevsky]
+<sudden6>	I think toxygen is a bit hard as an entry level project
+<toxync12>	[ullbeking@tox] what is toxygen?
+<sudden6>	Ingvars client
+<toxync12>	[Ingvar@tox] my client :) in python3
+<sudden6>	written in python
+<toxync12>	[tox-user@tox] we can talk about it briefly anyway. The question I have is: is this going to be implemented in toxcore? is it a planned feature?
+<toxync12>	[ullbeking@tox] Ingvar: toxygen is the client you were referring to when you were talking about your python3 bindings earlier?
+<toxync12>	[tox-user@tox] sudden6: I think any client with a lot of features will be hard
+<iphy>	actually this might be a toxcore bug I'm running into
+<iphy>	minitox works fine with old gc
+<toxync12>	[tox-user@tox] iphy: oh wow!
+<sudden6>	I made a short spec for capabilities but nothing came of it
+<toxync12>	[tox-user@tox] iphy: progress!
+<toxync12>	[ullbeking@tox] tox-user: is _what_ going to be implemented or planned?
+<toxync12>	[tox-user@tox] capabilities feature
+<toxync12>	[tox-user@tox] our current topic
+<toxync12>	[tox-user@tox] do we want capabilities though?
+<toxync12>	[Ingvar@tox] ullbeking:
+<toxync12>	[Ingvar@tox] >toxygen is the client you were referring to when you were talking about your python3 bindings earlier?
+<toxync12>	[Ingvar@tox] yep
+<toxync12>	[Ingvar@tox] >do we want capabilities though?
+<toxync12>	[Ingvar@tox] I afraid after breaking api it won't be too useful
+<toxync12>	[tox-user@tox] it's needed for messagev2 right?
+<sudden6>	I think we need some capabilities if we want a smooth transistion between different group features
+<iphy>	maybe next meeting we can talk about how we roll out protocol changes
+<sudden6>	also video
+<sudden6>	iphy: written down
+<iphy>	this meeting has been 2 hours now
+[22:01:27 CEST] Beenden	toxync12 (~toxync12@124.166.232.114) hat diesen Server verlassen (Read error: Connection reset by peer).
+<iphy>	we can continue chatting, but maybe this is not the meeting anymore :)
+<sudden6>	iphy: I think they all dropped out
+<iphy>	yeah
+<iphy>	tox-user: it's hard to tell because I don't trust minitox at all :\
+<iphy>	the code is very bad
+<toxygen_tox>	Toxync died
+<toxygen_tox>	:(
+The meeting ended at 20:00 UTC+00:00
