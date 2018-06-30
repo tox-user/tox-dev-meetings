@@ -1,0 +1,1410 @@
+tox-user
+hi everyone
+
+Ingvar
+hi
+
+tox-user
+it's meeting time
+
+tox-user
+hope everyone is here
+
+toxirc
+sudden6: sudden6 reporting in :)
+
+tox-user
+:)
+
+tox-user
+before we start
+
+Ingvar
+>hope everyone is here
+too optimistic
+
+Ingvar
+too optimistic
+
+tox-user
+some people told me that they don't like the fact that we recorded this public meeting on this public channel last time and published the logs
+
+toxirc
+sudden6: ok?
+
+toxirc
+sudden6: why
+
+toxirc
+sudden6: IMO it's important to preserve it
+
+tox-user
+they said privacy reasons
+
+toxirc
+anthonybilinski: as someone who wasn't present but wanted to see what happened, the logs were helpful for me personally. plus it's a channel of 80 people, most of whom I don't know, it seems like there's no privacy to start
+
+tox-user
+but I don't get it because on IRC everything is logged and it's a public meeting announced to hundreds of people via github and reddit on a public channel
+
+toxirc
+sudden6: yeah, seems like a needless hurdle
+
+toxirc
+sudden6: I think most clients even log by default
+
+tox-user
+yeah and the server most likely does too
+
+tox-user
+some people are coming to toxirc right now because toxync isn't working
+
+tox-user
+it must have disconnected from IRC
+
+toxirc
+robinli: toxync12- is here.
+
+tox-user
+so is there anyone here that doesn't want the meeting to be logged?
+
+toxirc
+sudden6: I'm fine with logging
+
+toxirc
+anthonybilinski: +1
+
+tox-user
+ok great :) let's start with the first topic then
+
+tox-user
+https://github.com/tox-user/tox-dev-meetings/tree/master/30_06_2018
+
+tox-user
+PGC development state
+
+tox-user
+whose suggestion was it?
+
+toxirc
+sudden6: I think it was spillover from the last time
+
+tox-user
+I see
+
+tox-user
+so what's the state? Ingvar you said you reproduced some bugs?
+
+tox-user
+I think we got the PGC crash fixed right?
+
+toxirc
+sudden6: so we have one bug fixed in pgc, namely the crash with peer->nick and peer->nick_len
+
+tox-user
+good that's progress
+
+toxirc
+sudden6: iphy wants a test to reproduce
+
+tox-user
+why do we need tests for everything shouldn't we fix stuff first?
+
+Ingvar
+test for reproducing race condition? terrible idea
+
+toxirc
+sudden6: It's not a race condition afaict
+
+toxirc
+sudden6: the fix is merged already btw, I'm also not sure it makes sense to write a test in this specific instance
+
+tox-user
+I'm glad that it's merged
+
+toxirc
+sudden6: zugz_: I think just working
+
+tox-user
+there are a few bugs left in PGC
+
+toxirc
+sudden6: Ingvar what's the state of the other bugs?
+
+toxirc
+sudden6: are there issues for them on GH somewhere so we can track progress?
+
+Anthony
+it looks like toxirc isn't briding zugz's messages to the people in tox :S
+
+tox-user
+:O
+
+toxirc
+sudden6: true
+
+toxirc
+sudden6: wonder why though^^
+
+tox-user
+I'm so tired of those broken bots!
+
+tox-user
+toxirc had some bug with a name I think his name is causing it
+
+toxirc
+sudden6: zugz_: maybe the underscore?
+
+toxirc
+anthonybilinski: nope
+
+toxirc
+sudden6: nah still only on IRC
+
+toxirc
+sudden6: maybe the name is too short?
+
+tox-user
+we really need a new bot
+
+toxirc
+sudden6: ok, my own messages don't get relayed now too
+
+tox-user
+what?! I can see them
+
+toxirc
+anthonybilinski: I can see sudden6, but still not zugz
+
+tox-user
+so one bot broke and another one has an annoying bug and randomly drops messages - this is fun
+
+toxirc
+sudden6: Everybody move to IRC for now?
+
+toxirc
+sudden6: to get this meeting going?
+
+tox-user
+I can't
+
+tox-user
+we can try to move on
+
+toxirc
+sudden6: ok, annoying
+
+tox-user
+so what are the other bugs that are left?
+
+sudden6-pc
+<zugzugzugz> anyway, I was just talking to iphy about it, so I know there's also a memleak and a use after free for which there are tests but no fixes yet
+
+toxirc
+sudden6: zugzugzugz: so we know of 2 other bugs left
+
+tox-user
+oh I see
+
+tox-user
+there are more though
+
+tox-user
+there is one with toxync where auto join is broken
+
+tox-user
+and there is one where you can't send messages
+
+Anthony
+>zugzugzugz: I'm getting some other errors from the auto_conference_test, but they may be artifacts of the test
+>toxygen_tox: Memleak is easy to fix. Just free memory in kill_groupchats
+>toxygen_tox: Lol, my messages aren't relayed too
+
+tox-user
+there are no issues for them created because nobody cared about finishing PGC back then
+
+toxirc
+anthonybilinski: manual bridge :-/
+
+Ingvar
+tox-user: can you send messages after some timeout?
+
+tox-user
+:(
+
+tox-user
+no, when the bug happens I get an error that the message couldn't be sent
+
+tox-user
+I once left it for hours and it didn't reconnect
+
+toxirc
+sudden6: tox-user can you resend afterwards?
+
+toxirc
+sudden6: or do you have to restart the client?
+
+tox-user
+I can only send messages when I manually rejoin the group
+
+Ingvar
+bad connection?
+
+tox-user
+can't be bad connection because I was able to talk to other people
+
+toxirc
+sudden6: maybe something to do with TCP?
+
+tox-user
+and sometimes some other groups. I remember that it once happened to all of the groups I was connected to
+
+tox-user
+it happens rarely and I don't know how to reproduce it. It affects all groups
+
+tox-user
+not just toxync
+
+Anthony
+>zugz: could someone relay (or answer) my question: is ngc expected to entirely supersede pgc?
+
+Ingvar
+I repro this bug but I didn't get error with sending messages
+
+Ingvar
+I didn't see it but w/o errors
+
+Ingvar
+zugz: in future - yes
+
+tox-user
+zugz: yes eventually but at first it both will have to be used
+
+tox-user
+because audio is broken in ngc and it will take some time to fix it
+
+Ingvar
+fix => rewrite from scracth
+
+tox-user
+Ingvar: you reproduced the bug with toxync groups?
+
+Ingvar
+with rbroken rejoin?
+
+tox-user
+yes
+
+Ingvar
+yes. in 2 clients
+
+Ingvar
+isotoxin is looking into it
+
+toxirc
+sudden6: zugz: could you add an issue to the c-toxcore repo so we can track the progress on pgc?
+
+tox-user
+nice
+
+toxirc
+sudden6: should we create a milestone with all the pgc stuff?
+
+Anthony
+>zugz: ok thanks, then I guess it's not so bad to merge pgc even if it's not the cleanest code
+
+tox-user
+sudden6: yes great idea!
+
+Ingvar
+you mean with bugs?
+
+tox-user
+pgc is not stable right now
+
+toxirc
+sudden6: tox-user afaict it's as stable as current groups, no?
+
+Ingvar
+current groups are terrible
+
+tox-user
+sudden6: no because of the two bugs we talked about. One with broken autojoin and another one that causes your messages to not get sent sometimes
+
+tox-user
+when those are fixed it should be similar to current groups
+
+toxirc
+sudden6: ok, we need to write all those bugs down, I loose track of them
+
+tox-user
+assuming we don't find more bugs
+
+tox-user
+I wrote one down
+
+tox-user
+https://gist.github.com/tox-user/6b87ceff4cc280e514bfdb31583f582a
+
+toxirc
+sudden6: lets move this to the issue tracker
+
+tox-user
+I wrote about one in the PR
+
+Ingvar
+probably in this case problem is on toxync side
+
+tox-user
+possible but still weird
+
+Anthony
+>sudden6: is toxync using pgc toxcore?
+>zugz: sudden6: ok, shall I just create an issue "status of persistent group chats" and we can link things there?
+
+Anthony
+>sudden6: zugz: I would prefer one issue per bug
+
+Anthony
+>sudden6: then we can make it a milestone on GH
+>zugz: right ok
+
+tox-user
+zugz: toxync doesn't use pgc to my knowledge
+
+tox-user
+but it's hard to know for sure what code is running on it
+
+Anthony
+omg bridge is down both ways for everyone
+
+Anthony
+I can't copy paste fast enough
+
+tox-user
+aaaah noooooo
+
+tox-user
+whhyyyy
+
+Anthony
+>sudden6: zugz: yeah, lets start with the fact that the bugs exist
+>toxygen_tox: Good reason to move our meetings to tox
+>sudden6: it's enough for now I think
+
+tox-user
+lol I will just start writing a new bot right now and see if I can finish before the meeting ends
+
+sudden6-pc
+Milestone created: https://github.com/TokTok/c-toxcore/milestone/31
+
+tox-user
+thanks
+
+sudden6-pc
+please register all bugs that were mentioned there
+
+tox-user
+will do
+
+sudden6-pc
+toxirc is completely desynced
+
+Ingvar
+toxirc is offline
+
+tox-user
+omg
+
+Anthony
+ah, that would do it
+
+sudden6-pc
+ok, then lets move to IRC for now?
+
+tox-user
+or move to Tox? :D
+
+sudden6-pc
+without a groupbot Tox is useless
+
+sudden6-pc
+or is everybody already running pgc?
+
+Ingvar
+lets move to kalina bot
+
+tox-user
+I am but what does pgc have to do with anything?
+
+Ingvar
+with logs
+
+tox-user
+there is Tox Public Chat on groupbot
+
+tox-user
+it's full of people
+
+Ingvar
+but no logs
+
+MAL
+Having tox dev meeting on tox would make sense ;)
+
+tox-user
+lol yeah
+
+tox-user
+we have logs though
+
+sudden6-pc
+yeah, but we need a persistent place
+
+tox-user
+we can upload them
+
+sudden6-pc
+qTox has logs
+
+tox-user
+not :D
+
+Anthony
+not persistent in groups
+
+sudden6-pc
+ah, right
+
+tox-user
+we will upload it
+
+tox-user
+we need to anyway
+
+tox-user
+Tox Public Chat is a persistent group on groupbot
+
+tox-user
+and groupbot is used by everyone
+
+Ingvar
+so where will we continue?
+
+tox-user
+>Friends: 1364 (100 online)
+
+tox-user
+I think we should move to Tox Public Chat and tell everyone on IRC to come
+
+tox-user
+this bot is too unstable
+
+Anthony
+>sudden6: zugz: can you move to tox too?
+>zugz: here's the memleak issue: https://github.com/isotoxin/toxcore-vs/issues/3
+
+Anthony
+>zugz: how?
+
+tox-user
+groupbot's ID: 56A1ADE4B65B86BCD51CC73E2CD4E542179F47959FE3E0E21B4B0ACDADE51855D34D34D37CB5
+
+tox-user
+channel: Tox Public Chat
+
+sudden6-pc
+tox-user is it still synced to #tox?
+
+tox-user
+or can be this one on toxirc I dont know
+
+tox-user
+no, jfreegman banned it for good
+
+sudden6-pc
+toxirc is dead and offline
+
+sudden6-pc
+groupbot it is then
+
+tox-user
+but it used toxync anyway and that is broken
+
+tox-user
+I tried to connect to freenode over web client but it asks me to select pictures of roads and will take me forever
+
+tox-user
+so we moved to groupbot, Tox Public Chat channel:
+groupbot's ID: 56A1ADE4B65B86BCD51CC73E2CD4E542179F47959FE3E0E21B4B0ACDADE51855D34D34D37CB5
+sudden6-pc
+all arrived for the dev meeting
+
+sudden6-pc
+?
+
+Anthony
+here
+
+tox-user
+me too
+
+sudden6-pc
+lets eat our own dog food
+
+tox-user
+we need a new bot before next meeting
+
+zugz
+ok
+
+tox-user
+or we should move meetings to Tox permanently
+
+tox-user
+I'm gonna create those issues in the milestone
+
+Ingvar
+>or we should move meetings to Tox permanently
+good idea
+
+tox-user
+we should move on to the next topic: WebRTC support
+
+sudden6-pc
+but continue with the meeting
+
+Tristan B. Kildaire (Mobile)
+noice
+
+tox-user
+Skyzohkey is not here again
+
+tox-user
+so I don't know does anyone want to discuss it?
+
+tox-user
+or we move on?
+
+sudden6-pc
+move on
+
+tox-user
+here are the topics btw https://github.com/tox-user/tox-dev-meetings/tree/master/30_06_2018
+
+tox-user
+next is: Capabilities (features, backward compatibility, implementation) [kurnevsky]
+
+Ingvar
+he is offline too
+
+tox-user
+yeah, anyone interested in that?
+
+tox-user
+Ingvar you said we can't implement it before multidevice?
+
+tox-user
+if I remember correctly?
+
+sudden6-pc
+what?
+
+tox-user
+capabilities
+
+Anthony
+doesn't make sense to me, maybe the other way around?
+
+Ingvar
+no
+
+tox-user
+ok, my bad
+
+tox-user
+but Capabilities are only needed for messagev2 right?
+
+sudden6-pc
+theres a proposal for capabilities in the issue tracker
+
+tox-user
+and I remember that Ingvar said we shouldn't implement messagev2 before multidevice
+
+sudden6
+seems one of my pcs dropped out of the chat :/
+
+tox-user
+oops good thing you have a backup PC :D
+
+sudden6
+yep^^
+
+tox-user
+any thoughts on capabilities anyone?
+
+tox-user
+or messagev2 since it's related
+
+sudden6
+so, for capabilities I started a draft but in the issue tracker somewhere
+
+tox-user
+yeah I remember
+
+sudden6
+but I don't have enough time to develop it further
+
+tox-user
+there were two proposals
+
+tox-user
+but do we need this feature?
+
+sudden6
+yes, mine is based on msg-pack though, not sure if we want that dependency?
+
+sudden6
+I think so
+
+tox-user
+why?
+
+Anthony
+yes I think capabilities are a great idea to have in the protocol
+
+tox-user
+https://github.com/TokTok/c-toxcore/issues/843
+
+sudden6
+to signal if the other party supports certain features e.g. audio video,...
+
+tox-user
+what will it allows us to do?
+
+tox-user
+*allow
+
+sudden6
+and for easier protocol upgrade
+
+Anthony
+yeah, gives the ability to have future changes to the protocol
+
+sudden6
+but it's not at the roadmap anyway, so we should postpone it for the time being
+
+tox-user
+yeah PGC and NGC are priorities right?
+
+sudden6
+yes
+
+sudden6
+that shouldn't change every week
+
+sudden6
+so, capabilities postponed after NGC?
+
+sudden6
+we should also write a timeline somewhere
+
+tox-user
+we haven't changed anything
+
+sudden6
+yes, and that's good^^
+
+tox-user
+:)
+
+tox-user
+but yeah we need it written down
+
+tox-user
+no idea how or where
+
+sudden6
+no idea either, any suggestions?
+
+sudden6
+maybe a simple list in md on c-toxcore repo?
+
+tox-user
+we need a roadmap with everything written down. Near future and future
+
+tox-user
+why doesn't toktok.ltd have that?
+
+tox-user
+or we could have it on tox.chat
+
+sudden6
+idk who has control over that
+
+tox-user
+iphy
+
+sudden6
+only?
+
+tox-user
+I don't know
+
+tox-user
+I think it would be nice if people were able to access it easily though
+
+sudden6
+-> GH
+
+tox-user
+to see that there is some actual planning
+
+tox-user
+and not just chaos
+
+tox-user
+next topic
+
+tox-user
+Define process for protocol changes [sudden6]
+
+sudden6
+yep, how long do we want to support backwards?
+
+tox-user
+old API?
+
+tox-user
+or old group chats?
+
+sudden6
+no, on the protocol level not API level
+
+tox-user
+so like old group chats?
+
+Anthony
+in general, I'd say keep protocol as long as possible, seems pretty disastorous to break protocol without any fallback
+
+Anthony
+if friends just can't communicate after one updates
+
+Anthony
+but that's kind of an obvious answer, guess it depends on how impossible keeping backwards compatibility is
+
+sudden6
+yeah, lets wait for NGC to be ~implemented
+
+sudden6
+next topic?
+
+Ingvar
+ngc and md will break protocol 100%
+
+tox-user
+sudden6: what is the merged commit that fixed PGC crash?
+
+sudden6
+tox-user should be listed in the PR as last commit
+
+tox-user
+ok
+
+sudden6
+also I think we should hold the next meeting in IRC again
+
+tox-user
+why?
+
+sudden6
+because there's again another discussion popping up in IRC...
+
+tox-user
+omg
+
+tox-user
+can you ask them to come here?
+
+sudden6
+KISS and stick to IRC for now
+
+sudden6
+no need to break everything at once
+
+tox-user
+I can't but you are free to use IRC if you want
+
+tox-user
+unless I manage to write a new bot this week and find someone to host it
+
+tox-user
+but still I don't see why not use Tox for those meetings
+
+tox-user
+we have the same amount of active people here
+
+sudden6
+I again had a bug where I couldn't write anything to the group
+
+tox-user
+are you using pgc?
+
+tox-user
+because then it's the bug I was talking about today
+
+sudden6
+yes
+
+tox-user
+ok hurray someone else reproduced it besides me :)
+
+Ingvar
+i reproduced it too
+
+tox-user
+so now you see that pgc isn't very stable
+
+tox-user
+oh ok
+
+Ingvar
+but I did it after fast reconnection to network
+
+tox-user
+sudden6: was pgc crash fixed in https://github.com/TokTok/c-toxcore/pull/826/commits/5b6d1129ca9b4eff4781315d622382d471b1745e ?
+
+Ingvar
+I had the same bug in ngc, it was difficult to fix
+
+tox-user
+:/
+
+sudden6
+move on with the meeting? we are again at 1:08min
+
+tox-user
+Discuss IRC syncing features and groupbot replacement [sudden6]
+
+tox-user
+we are almost done because hugbubby who suggested last 4 isn't here
+
+Ingvar
+bots are online?
+
+tox-user
+which ones
+
+Ingvar
+toxirc/toxync
+
+tox-user
+they are
+
+tox-user
+on Tox
+
+sudden6
+right toxync seems to be back
+
+tox-user
+wasn't toxync online the whole time?
+
+tox-user
+it was its IRC connection that broke
+
+Ingvar
+no
+
+tox-user
+Discuss IRC syncing features and groupbot replacement [sudden6]
+
+tox-user
+so we need a new groupbot
+
+tox-user
+current one lacks important features such as logs and autoinvite
+
+tox-user
+and many other improvements could be done
+
+sudden6
+or maintainer
+
+tox-user
+yeah
+
+tox-user
+and our IRC sync bots suck too
+
+sudden6
+obviously
+
+tox-user
+so I propose to create a new bot that has all of those features
+
+tox-user
+written in python
+
+tox-user
+because we don't need 2000 lines of code in C
+
+sudden6
+ok, who will maintain the python code?
+
+sudden6
+(I'm not good at it)
+
+tox-user
+I want to write the bot
+
+sudden6
+ok, then it's greate
+
+tox-user
+I'm not great at python but I can do it
+
+sudden6
+will you use Ingvars framework?
+
+tox-user
+that's the problem
+
+tox-user
+I don't know. It seems so complicated. So many classes
+
+tox-user
+take a look
+
+tox-user
+https://github.com/toxygen-project/bot-platform
+
+tox-user
+that vs Diadlo's python groupbot:
+https://github.com/Diadlo/PyToxBot
+
+tox-user
+    params = ToxBotAppParameters(interpreter_factory=lambda bot: EchobotInterpreter(bot))
+    # starts app
+    app.main(params)
+
+
+if __name__ == '__main__':
+main()
+```
+
+sudden6
+I don't find the example that confusing
+
+tox-user
+right but someone has to maintain all of that code
+
+tox-user
+the library itself
+
+tox-user
+    app.main(params)
+
+
+if __name__ == '__main__':
+    main()
+
+```
+
+sudden6
+my only concern is, that there are many python <-> c-toxcore libraries
+
+tox-user
+weird I can't send this in code in a message ...
+
+sudden6
+each one half tested
+
+tox-user
+what do you mean?
+
+Anthony
+tox-user: message is being split into 2, breaking formatting
+
+sudden6
+currently there's py-toxcore-c
+
+sudden6
+and Ingvars binding
+
+tox-user
+Anthony: and I was gonna say that the advantage of Tox over IRC is that we can send multiline messages
+
+tox-user
+right so only two implementations
+
+tox-user
+pytox isn't great because it doesn't work over Tor for example
+
+sudden6
+yeah, so as long as you don't create a third one it should be ok^^
+
+tox-user
+:D
+
+tox-user
+I would probably use pytox because I know how to use it already
+
+sudden6
+hmm ok
+
+tox-user
+so the must have features in new group bot are in my opinion: logs, auto invite, irc syncing, permanent groups
+
+Anthony
+what about hosting? I don't mind the bandwidth but it seems inevitable that I'll get IP banned from IRC channels
+
+sudden6
+make it prioritized:
+
+- permanent groups
+- auto invite
+- logs
+- irc syncing
+
+sudden6
+?
+
+sudden6
+top is highes
+
+tox-user
+yeah something like that
+
+tox-user
+well I think iphy wants it to be hosted by our servers
+
+tox-user
+the ones that host current groupbot and echobot
+
+tox-user
+but I wish this new bot had some basic form of moderation (muting spammers) and I don't trust our admins :D
+
+tox-user
+because they banned toxync
+
+tox-user
+iphy wanted not an IRC syncing bot but a gateway that creates separate connection per user
+
+sudden6
+there could be a feature to prevent messages from certain IDs to IRC
+
+sudden6
+also a good idea
+
+tox-user
+yeah that's what I meant by muting spammers
+
+tox-user
+but I'm afraid to give those tools to our admins :D
+
+tox-user
+thanks to them this group is dead and #tox on freenode too
+
+Anthony
+they were muting toxync because they couldn't mute individuals who were spamming, if they have that tool they can use it the same as IRC bans
+
+tox-user
+nobody was spamming
+
+tox-user
+toxync was banned for offtopic
+
+sudden6
+the reason is the same, no tools to mute individuals
+
+tox-user
+not really. The entire bridge was banned with no warning
+
+sudden6
+if you're afraid of that, then maybe the better approach is individual connections
+
+tox-user
+so if there were tools for muting people would get muted for no reason without any warning
+
+sudden6
+but freenode will not like a lot of connections from one IP
+
+sudden6
+tox-user: there were warnings in the logs I have seen
+
+sudden6
+and also in one instance where I was in the group
+
+sudden6
+* channel
+
+tox-user
+I've seen those logs. There were no warnings. Once I saw Jfreegman tell russian people to shut up but nothing besides that
+
+tox-user
+the last time toxync was banned on #tox there was no warning too
+
+tox-user
+just banned a few hours later because two people were saying hi to each other
+
+tox-user
+so I think hosting is one issue because I don't want those admins to have control over the bot. But anyway a gateway is an interesting idea but I'm not sure how realistic it is. It would have to be approved by freenode otherwise it wouldn't be usable
+
+sudden6
+ok, to sum it up, you will try to find a solution for the bot problem?
+
+tox-user
+I will write one
+
+tox-user
+can we move on to the next topic?
+
+sudden6
+yes
+
+tox-user
+Rust toxcore [hugbubby]
+
+tox-user
+hugbubby is not here. Is anyone interested in this? I don't even know what he meant
+
+sudden6
+talking about rs-tox probably
+
+tox-user
+yeah
+
+sudden6
+but no idea what he wants specifically
+
+sudden6
+1,5h btw
+
+tox-user
+nobody knows
+
+tox-user
+next: Dev recruitment [hugbubby]
+
+tox-user
+we are almost over
+
+tox-user
+next topics are:
+- Dev recruitment [hugbubby]
+- Meetings schedule [hugbubby]
+- Online after many minutes bug [hugbubby]
+
+tox-user
+anyone interested in any of this?
+
+sudden6
+meeting schedule
+
+tox-user
+what about it?
+
+sudden6
+I'd perfer a 2 weeks schedule
+
+sudden6
+*prefer
+
+tox-user
+why?
+
+sudden6
+not much changed and ~1,5h per week seems much for me
+
+tox-user
+we would have been done 30 minutes ago if stupid bots didn't fail
+
+tox-user
+also we got offtopic a few times
+
+sudden6
+yeah, so IRC it is next time?
+
+tox-user
+what does everyone else think?
+
+MAL
+Tox Public Chat seems ok, or why not create a Tok Meeting group using groupbot?
+
+MAL
+Seems weird for tox devs not to use tox :P
+
+tox-user
+:D
+
+Anthony
+I'm fine with either, but we need to get robinli and iphy in if they're arround, today they were having a side meeting in IRC
+
+tox-user
+I would prefer to use Tox
+
+tox-user
+ehh
+
+zugz
+joining a tox public chat exposes your ip address to everyone in the group, and associates it with your tox public key
+
+tox-user
+iphy won't join
+
+Anthony
+if we can't get them to tox then I think we should use IRC just to get their input, since they're main core devs
+
+MAL
+he hates tox?
+
+tox-user
+zugz: joining IRC exposes your IP too
+
+tox-user
+zugz: you can use Tor like I do
+
+tox-user
+can't connect to freenode over Tor though
+
+Ingvar
+zugz: use tor
+
+zugz
+to the irc gateway only if you set things up right
+
+zugz
+using tor doesn't prevent linking your dht pubkey to your long term pubkey though
+
+zugz
+which can be used to work out who your friends are
+
+Ingvar
+lol. use temp account
+
+Ingvar
+like I do
+
+zugz
+true
+
+tox-user
+MAL: maybe but I think he sometimes has connection issues and group chats aren't working well when that happens unless there is a bot with logs
+
+sudden6
+iphy has really shitty internet, Tox doesn't like that
+
+Anthony
+zugz: link long-term pub key to session key? how?
+
+tox-user
+zugz: public key is public
+
+sudden6
+IRC is developed for that
+
+tox-user
+so what that someone knows it?
+
+zugz
+this is off-topic... shall we call the meeting ended then we can discuss?
+
+tox-user
+sudden6: with logs Tox is fine trust me. But without them it's impossible
+
+tox-user
+we need to decide where the next meeting will be
+
+sudden6
+I vote for IRC
+
+zugz
+irc
+
+Ingvar
+Tox
+
+Anthony
+IRC
+
+tox-user
+Tox
+
+MAL
+I'm not a dev but as a lurker I vote tox if it matters :D lol
+
+tox-user
+anyone else voting?
+
+tox-user
+:D
+
+sudden6
+asked in the IRC, wait a min
+
+tox-user
+lol it's obvious what IRC people are gonna say
+
+tox-user
+but it's fair
+
+Anthony
+seems kind of biased to only ask the people on Tox :P
+
+tox-user
+true
+
+sudden6
+robinli says IRC
+
+sudden6
+iphy didn't answer
+
+tox-user
+I think one meeting a week if ti's around 1h long should be fine?
+
+tox-user
+no need to make it one meeting every two weeks? if someone can't come every week that's fine they can always read the log later and come to the next meeting
+
+sudden6
+if we limit it to 1h it would be ok
+
+tox-user
+we need to work it out
+
+Anthony
+I'm not sure I believe that we can limit to 1h, last two have been ~2h
+
+sudden6
+So IRC it is?
+
+Anthony
+but I'm ok with every week
+
+tox-user
+I guess 4:3 for IRC
+
+MAL
+Does the kiwi IRC client leak the IP or does it mask it?
+
+Ingvar
+lets use ngc next time
+
+tox-user
+I think we can limit them to ~1h. This meeting and the previous one weren't ordinary
+
+tox-user
+hahaha
+
+Anthony
+tox-user: you said you got a captcha on freenode over Tor? does that mean you /can/ access it?
+
+tox-user
+alright so it's decided that we will have ~1h long weekly meetings on IRC (for now?)
+
+tox-user
+in that case the meeting is over
+
+sudden6
+ok, good :)
