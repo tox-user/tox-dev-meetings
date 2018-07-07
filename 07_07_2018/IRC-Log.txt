@@ -1,0 +1,440 @@
+The meeting started at 18:06:20 UTC+0
+
+<toxync12->	[tox-user@tox] time to start the meeting
+<toxync12->	[Advisor from Hell ⛧@tox] objectives ?
+<toxync12->	[tox-user@tox] list of topics: https://github.com/tox-user/tox-dev-meetings/tree/master/07_07_2018
+<toxync12->	[Advisor from Hell ⛧@tox] thank you
+<toxync12->	[tox-user@tox] the first topic is: PGC development state
+<toxync12->	[Advisor from Hell ⛧@tox] PGC ?
+<toxync12->	[tox-user@tox] Advisor from Hell ⛧ I can't see your messages in toxync for some reason
+<toxync12->	[Advisor from Hell ⛧@tox] It is simple
+<toxync12->	[Advisor from Hell ⛧@tox] I logged on #toktok through "kalinabot"
+<toxync12->	[Advisor from Hell ⛧@tox] and the bad news are
+<toxync12->	[Advisor from Hell ⛧@tox] kalina has NOT a "leave" command.
+<toxync12->	[Advisor from Hell ⛧@tox] It seems absurd to me, create a bot with only IN commands, and not OUT.
+<toxync12->	[tox-user@tox] can you send your messages again? I couldn't see them
+<toxync12->	[Advisor from Hell ⛧@tox] thinking...
+<toxync12->	[tox-user@tox] probably because of your name
+<toxync12->	[Advisor from Hell ⛧@tox] i will remove kalina and try toxync
+<toxync12->	[tox-user@tox] you don't need to
+<toxync12->	[tox-user@tox] is anyone participating in the meeting today?
+<Toxit>	<MAL> I'm interested although not participating
+<toxync12->	[tox-user@tox] ok
+<zugz>	I'd like to discuss the protocol changes made by pgc
+<toxync12->	[Advisor from Hell ⛧@tox] out from "kalina"
+<toxync12->	[Advisor from Hell ⛧@tox] in on toxync
+<zugz>	if we merge it in its current state, do we risk being stuck with its design?
+<toxync12->	[tox-user@tox] ok cool
+<toxync12->	[tox-user@tox] why would we be?
+<zugz>	relatedly, how important is it actually to have persistence work even when our peers are using pre-pgc toxcore?
+<toxync12->	[tox-user@tox] we can't merge it in its current state because it has bugs btw
+<zugz>	s/current state/current design
+<toxync12->	[Advisor from Hell ⛧@tox] what is PGC ?
+<toxync12->	[tox-user@tox] PGC is persistent group chats
+<toxync12->	[tox-user@tox] not sure what you mean with persistence zugz
+<toxync12->	[Advisor from Hell ⛧@tox] ah... good, i like them... it is bothereing to create my own channels, to see them disappear when I leave
+<toxync12->	[tox-user@tox] PGC works even if your peers don't use it
+<toxync12->	[Advisor from Hell ⛧@tox] until now, as soon as i leave 15 minutes later the group disappear
+<zugz>	pgc introduces some new packets (e.g. new kinds of invite packet)
+<zugz>	I'm just worried that we may then be forced to support them forever, even if we find that there's a better solution to persistence
+<zugz>	I'm still in the process of familiarising myself with pgc, I don't know if this is a sensible worry
+<toxync12->	[Advisor from Hell ⛧@tox] agreed
+<toxync12->	[tox-user@tox] I think those might have been added in toxcore 0.2.0
+<toxync12->	[Advisor from Hell ⛧@tox] never implement something to re-work and remove it on the next versions
+<zugz>	ones which aren't in master, I mean
+<e0f>	some parts of persistent groupchats were merged early
+<zugz>	e.g. INVITE_MYGROUP_ID
+<zugz>	(which definitely needs renaming btw!)
+<toxync12->	[tox-user@tox] why?
+<toxync12->	[tox-user@tox] oh ok yeah maybe
+<toxync12->	[Advisor from Hell ⛧@tox] from the users perspective, anyone should be able to invite from one channel, into anotehr channel
+<zugz>	(to something more descriptive)
+<toxync12->	[tox-user@tox] sounds like a good idea
+<toxync12->	[tox-user@tox] assuming w can change it
+<zugz>	and generally, though as I say I'm new to it and my opinions aren't fully formed, I have the impression that the design is messier than it might be because of the desire to have it working even when your peers are on pre-pgc toxcore
+<zugz>	but I wonder whether that's actually so important for us
+<zugz>	s/it working/persistence working
+<toxync12->	[tox-user@tox] it's better to have it
+<toxync12->	[tox-user@tox] people rarely update
+<zugz>	all else being equal, yes
+<zugz>	anyway, just things to keep in mind maybe
+<toxync12->	[tox-user@tox] I think it's important but not as important as pgc itself
+<toxync12->	[Advisor from Hell ⛧@tox] persistence may allow a DOS attack
+<toxync12->	[tox-user@tox] it seems that the current state of pgc is still the same as week ago except that bugfix for the crash was merged
+<zugz>	iphy: care to set me straight on any of the above?
+<toxync12->	[Advisor from Hell ⛧@tox] I can leave thousands of empty channels
+<toxync12->	[tox-user@tox] Advisor from Hell ⛧ what are you talking about?
+<Toxit>	<MAL> They empty out when the last user leaves from what I gather
+<toxync12->	[Advisor from Hell ⛧@tox] with persistent channels, anyone can sabotage creating infinite channels
+<Toxit>	<MAL> It's to fix 1 user disconnecting during a chat and then having to get re-invited
+<toxync12->	[tox-user@tox] Advisor from Hell ⛧create them where?
+<toxync12->	[Advisor from Hell ⛧@tox] on the bot
+<toxync12->	[Advisor from Hell ⛧@tox] some bot channels lists are already big
+<toxync12->	[tox-user@tox] Advisor from Hell ⛧interesting
+<Toxit>	<MAL> They can do that now, persistent channels is just to fix disconnects
+<toxync12->	[Advisor from Hell ⛧@tox] setting some expire time can be reasonable
+<toxync12->	[tox-user@tox] but that's a problem for group bots
+<toxync12->	[tox-user@tox] I don't know how persistent groups are saved
+<toxync12->	[tox-user@tox] or if they can be removed
+<toxync12->	[Advisor from Hell ⛧@tox] currently i feel that expire time is 15 mnutes
+<toxync12->	[Advisor from Hell ⛧@tox] 12 or 24 hours is reasonable for leaving the channel active for the night whi98le logging off.
+<toxync12->	[tox-user@tox] Advisor from Hell ⛧that's a groupbot issue it has nothing to do with pgc
+<toxync12->	[tox-user@tox] anyway it seems pgc hasn't really improved during this week. There are still serious bugs to fix
+<toxync12->	[Advisor from Hell ⛧@tox] then i will waint for the next topic
+<toxync12->	[tox-user@tox] next topic: IRC sync bot vs IRC gateway [tox-user]
+<toxync12->	[tox-user@tox] Advisor from Hell ⛧groupbot will not be used for long. We will create a new bot
+<toxync12->	[Advisor from Hell ⛧@tox] i like that idea
+<toxync12->	[tox-user@tox] we need a new group bot
+<toxync12->	[tox-user@tox] we also need a new IRC bot because the ones we have now are not very reliable
+<toxync12->	[tox-user@tox] and are missing features like logs
+<e0f>	whats wrong with groupbot
+<toxync12->	[Advisor from Hell ⛧@tox] actually a "list" with the new bot features is needed.
+<toxync12->	[tox-user@tox] it won't be maintained anymore
+<toxync12->	[tox-user@tox] and it's missing a lot of useful features
+<toxync12->	[tox-user@tox] no logs, no autoinvite
+<e0f>	also i think i fixed the issues with toxirc it hasnt crashed in a couple of days
+<toxync12->	[Advisor from Hell ⛧@tox] bots can co-exists
+<toxync12->	[tox-user@tox] that's good to know
+<toxync12->	[Advisor from Hell ⛧@tox] the new can be created and used in paralel with the old ones
+<toxync12->	[tox-user@tox] I tried using it a few minutes ago
+<toxync12->	[tox-user@tox] but the bot kept leaving the group
+<toxync12->	[tox-user@tox] I don't know why
+<Toxit>	<MAL> toxync or toxirc?
+<toxync12->	[tox-user@tox] toxirc
+<toxync12->	[tox-user@tox] I think it would be a good idea to add IRC syncing features to new groupbot
+<toxync12->	[Advisor from Hell ⛧@tox] i dont like IRC bridging
+<toxirc>	<e0f> test
+<toxync12->	[tox-user@tox] iphy suggested that we create an IRC gateway instead but I don't know how it would work or why it's better
+<toxync12->	[tox-user@tox] but he isn't here
+<toxync12->	[tox-user@tox] a gateway is supposed to create a separate IRC connection for each user
+<toxync12->	[Advisor from Hell ⛧@tox] It seems not reasonable to me, to birdge a decentralized app like tox, INTO a centralized IRC server
+<toxync12->	[tox-user@tox] Advisor from Hell ⛧as you can see a lot of people still use IRC
+<toxync12->	[Advisor from Hell ⛧@tox] just my opinion, each one with their own choices.
+<toxync12->	[tox-user@tox] does anyone have anything to add to this topic?
+<Toxit>	<MAL> Persistent Group Chats and New Group Chats will definitely help with that.
+<toxync12->	[Advisor from Hell ⛧@tox] between centralized IRC servers or decentralized tox, i prefer the latter.
+<Toxit>	<MAL> Moving people from IRC to Tox that is..
+<toxync12->	[tox-user@tox] and a new groupbot should help too
+<iphy>	catching up
+<toxync12->	[Advisor from Hell ⛧@tox] irc servers should become redundant, anyone should be able to create them inside tox.
+<toxync12->	[tox-user@tox] we will come back to some of those topics then
+<toxync12->	[tox-user@tox] next topic is: Packaging [sudden6]
+<toxync12->	[Advisor from Hell ⛧@tox] the browser should be removed from that activity
+<toxync12->	[tox-user@tox] sudden6 are you here?
+<sudden6>	tox-user yes I am
+<toxync12->	[Advisor from Hell ⛧@tox] EG no irc server NOR browsers to access them
+<toxync12->	[tox-user@tox] you wanted to talk about packaging Tox?
+<sudden6>	so, what I wanted to discuss was if there would be a concerted effort to produce c-toxcore and client packages
+<toxync12->	[Advisor from Hell ⛧@tox] not my case, the win version seems to use a single file
+<toxync12->	[tox-user@tox] we have some packages for toxcore. Are they all created by the community?
+<sudden6>	I think so
+<sudden6>	there's sleep_walker for openSUSE who made an official package
+<sudden6>	but not much else I know of
+<toxync12->	[tox-user@tox] I could help but I don't know anything about creating packages yet
+<toxync12->	[tox-user@tox] I could help with Debian at least
+<sudden6>	the other idea would be to use the appimage or flatpak approach
+<sudden6>	I don't think that makes sense for c-toxcore though
+<iphy>	for debian/ubuntu, we can use launchpad
+<toxync12->	[tox-user@tox] yeah but those won't work with toxcore will they?
+<e0f>	there is someone who packages toxcore for archlinux
+<toxync12->	[tox-user@tox] there are people that do
+<sudden6>	iphy: what's launchpad?
+<iphy>	https://launchpad.net/~toktok/+archive/ubuntu/ppa
+<iphy>	ppa
+<toxync12->	[tox-user@tox] right but for that we need packages :)
+<sudden6>	does it also do the building part?
+<iphy>	we just need "debian" directories in the repos
+<iphy>	yes
+<toxync12->	[tox-user@tox] I think the goal should be to get them in official distros
+<sudden6>	is this also a stepping stone into Ubuntu?
+<toxync12->	[tox-user@tox] we had a repo once
+<iphy>	sudden6: yes
+<iphy>	zugz: what would we do differently?
+<iphy>	zugz: we don't need to support old protocols forever, but yes we'd support them for a while in parallel with a new protocol
+<sudden6>	In my opinion the way to go for packages atm is: client: appimage/flatpak, core: target official ubuntu or debian
+<sudden6>	does this look feasible?
+<toxync12->	[tox-user@tox] no
+<sudden6>	ok, why not?
+<toxync12->	[tox-user@tox] we need distro packages, not flatpak and appimage. Those shouldn't be our priority
+<e0f>	i agree
+<toxync12->	[tox-user@tox] they are nice to have but only once we get distro packages and have nothing else to do with our time
+<iphy>	zugz: personally I think 6 months for supporting old protocols is a reasonable horizon, but without any version statistics across the network, that's hard to justify or refute
+<sudden6>	tox-user I disagree, it's much easier to provide an up-to date client using appimage/flatpak
+<toxync12->	[tox-user@tox] appimage and flatpak are definitely easier
+<toxync12->	[tox-user@tox] but not better
+<toxync12->	[tox-user@tox] we should focus on creating toxcore packages for distros that don't have it yet. Those that have it we can leave for now
+<toxync12->	[tox-user@tox] there are only a few distros that don't have it
+<toxync12->	[tox-user@tox] I heard Debian 10 is getting it
+<sudden6>	tox-user where did you hear that?
+<sudden6>	and when will debian 10 be released?
+<toxync12->	[tox-user@tox] somewhere next year
+<sudden6>	ok, that would be great
+<toxync12->	[tox-user@tox] I will find a link
+<toxync12->	[tox-user@tox] it's probably at least 1 year of waiting
+<e0f>	https://linuxhint.com/debian-10-release-date/
+<e0f>	they are planning for it to come out january 12 2019
+<sudden6>	ok, so a few months earlier we need to have a package in unstable and testing?
+<toxync12->	[tox-user@tox] e0f: is there an official source that confirms it?
+<toxync12->	[tox-user@tox] >“We do not have a fixed release date, but, given the cadence of previous releases, it is likely that the release date will be some time mid-2019.  We certainly hope to improve the length of the full freeze, and you can help with that by ensuring that you are ready for these milestones,” added the Debian team in the same announcement.
+<toxync12->	[tox-user@tox] from the link you posted
+<sudden6>	https://packages.debian.org/search?suite=sid&searchon=names&keywords=tox in deed
+<sudden6>	not bad
+<toxync12->	[tox-user@tox] sudden6: thanks I couldn't find it
+<e0f>	https://lists.debian.org/debian-devel-announce/2018/04/msg00006.html
+<sudden6>	ok, if toxcore is already in debian sid I'm happy
+<toxync12->	[tox-user@tox] that says what I just quoted
+<toxync12->	[tox-user@tox] so Debian 10 comes out around mid 2019
+Modus	ChanServ gibt zoff99 Operator-Status.
+<zugz>	iphy: let's discuss this once I've finished reading pgc
+<iphy>	zugz: ok
+<toxync12->	[tox-user@tox] alright so I think we need to find distros that don't have tox yet
+<toxync12->	[tox-user@tox] make a list and then discuss making packages for those
+<toxync12->	[tox-user@tox] what do you think?
+<sudden6>	I think we should go by package system, we have covered deb in the future and rpm already
+<toxync12->	[pgc-user@tox] debian has ring
+<sudden6>	that's the two biggest done
+<toxync12->	[tox-user@tox] we don't have Ubuntu though
+<sudden6>	ubuntu will probably pull the package from debian
+<Toxit>	<MAL> how many distros are incorporating either appimage or flatpak into their "app store"?
+<toxync12->	[tox-user@tox] in a year
+<toxync12->	[pgc-user@tox] a year isn't a lot of time
+<toxync12->	[tox-user@tox] or it could take more years
+<sudden6>	maybe we can ping them and tell them that the package exists and they should pull it now
+<sudden6>	MAL kde has the "discover" app where you can access flathub.org
+<sudden6>	probably gnome has the same
+<toxync12->	[tox-user@tox] MAL: I hope it won't be the default on most distros
+<Toxit>	<MAL> long term for distros it just seems to make sense to have them at least available but not default
+<sudden6>	I think it makes distros more open
+<toxync12->	[tox-user@tox] we will have to come back to this topic in another meeting because we are running out of time
+<sudden6>	but you loose the quality controll distros provide atm
+<sudden6>	agreed
+<toxync12->	[tox-user@tox] last topic: Tox client standard [tox-user]
+<sudden6>	for qTox I'll focus on getting the flatpak usable as next task
+<Toxit>	<MAL> If all distros can download flatpak/appimage apps as easily as they could through their own repos it wouldn't hurt and takes a lot of burden off the package maintainers.
+<toxync12->	[tox-user@tox] in my opinion those package formats should never replace real distro packages
+<zoff99>	sudden6, with flatpak u dont get fixes
+<zoff99>	when a libc fix is out, how does it come into flatpak image?
+<sudden6>	zoff99: flatpak runtime gets updates all the time
+<sudden6>	but OT, on the the current topic
+<toxync12->	[tox-user@tox] let's talk about Tox Client Standard: https://tox.gitbooks.io/tox-client-standard/content/index.html
+<toxync12->	[Advisor from Hell ⛧@tox] ^
+<toxync12->	[tox-user@tox] we have this standard for clients
+<toxync12->	[tox-user@tox] all official clients listed on tox.chat have to follow it
+<zoff99>	i suggested a scoring table, but nobody would seriously count for their clients
+<zoff99>	no client atm passes it !
+<toxync12->	[tox-user@tox] >Since recently, we require clients to comply with Tox Client Standard (TCS) to be added to our website. We don't enforce that for the clients that were added to the website before the requirement, but we expect them to get TCS compliant over time.
+<toxync12->	[tox-user@tox] source: https://github.com/tox/tox.chat
+<toxync12->	[tox-user@tox] qTox is very close now
+<zoff99>	no client complies at this moment
+<toxync12->	[tox-user@tox] yeah so this is a serious problem
+<zoff99>	there should be a point system like ACID test for browsers
+<toxync12->	[tox-user@tox] we have those requirements for making clients secure and usable but we don't do anything about them
+<e0f>	utox is pretty close to following all of it
+<sudden6>	we could just create a table and check the points in the standard
+<toxync12->	[Advisor from Hell ⛧@tox] <out... but logging for later.
+<toxync12->	[tox-user@tox] well we need to enforce it
+<sudden6>	should be simple enough, no?
+<toxync12->	[tox-user@tox] we need to force developers to care about it
+<sudden6>	first we have to get at least some clients compliant^^
+<iphy>	tox-user: existing clients have no incentive
+<iphy>	once you're on the list, you're on it forever
+<toxync12->	[tox-user@tox] the official ones yeah
+<sudden6>	a table with checkmarks or crossess would be an incentive
+<iphy>	sudden6: mildly yes
+<toxync12->	[tox-user@tox] yeah we could make complicated tables and a score system
+<toxync12->	[tox-user@tox] or we could just threaten developers to remove their client from the website
+<sudden6>	no, score system, just pass/fail for each section
+<iphy>	but even with some red crosses on a less discoverable page, you are listed on the official clients page
+<sudden6>	we can then as a second step start to enforce it on tox.chat
+<toxync12->	[tox-user@tox] there need to be some deadline
+<zoff99>	there are NO offical clients! please stop saying that
+<sudden6>	after devs had actually time to implement the stuff
+<iphy>	zoff99: there is an official "clients page"
+<zoff99>	no
+<sudden6>	yes
+<zoff99>	there is not
+<toxync12->	[tox-user@tox] zoff99: we have an official website https://tox.chat and it lists official clients
+<zoff99>	repeating it over and over does not make it so
+<iphy>	https://tox.chat/clients.html is a clients page, and tox.chat is an official resource, so yes
+<iphy>	unless you disagree with one of those two things
+<sudden6>	uhm, did you ever ask a user what they think an official Tox client is?
+<zoff99>	its held hostage
+<iphy>	does that make it less official?
+<zoff99>	yes
+<toxync12->	[tox-user@tox] look we have an official website
+<sudden6>	it seems we're getting of the topic a bit
+<sudden6>	should we enforce the standard?
+<iphy>	I don't think internal politics will reduce the perception of it being official much
+<sudden6>	true
+<sudden6>	so, should we start to enforce the TCS?
+<toxync12->	[tox-user@tox] I think we should give developers a deadline to start enforcing the rules
+<toxync12->	[tox-user@tox] if they can't make it they should at least show us progress
+<sudden6>	tox-user I agree
+<sudden6>	no, no excuses please...
+<toxync12->	[tox-user@tox] hmm ok
+<sudden6>	also, who controlls the repo for the TCS?
+<toxync12->	[tox-user@tox] qTox is very close, it needs only one more thing done
+<toxync12->	[tox-user@tox] but some clients might require more time
+<toxync12->	[tox-user@tox] Jfreegman, nurupo I think
+<sudden6>	what would be the steps to add something to the standard? thinking of Tox identicons here
+<zoff99>	which authority will certify that a client meet the TCS in actuality?
+<sudden6>	I guess there should be a voting process of some sort
+<Toxit>	<MAL> push to talk :o
+<toxync12->	[tox-user@tox] here is the repo zoff99
+<toxync12->	[tox-user@tox] https://github.com/Tox/Tox-Client-Standard
+<zoff99>	?
+<toxync12->	[tox-user@tox] well currently
+<toxync12->	[tox-user@tox] it's maintainers of tox.chat who decide
+<toxync12->	[tox-user@tox] they decide which clients will be listed on the website
+<toxync12->	[tox-user@tox] but maybe it shouldn't be like that
+<toxync12->	[tox-user@tox] sudden6: yeah TCS needs some updates
+<sudden6>	AFAICT the repo is pretty dead...
+<toxync12->	[tox-user@tox] identicons should be in the standard
+<toxync12->	[tox-user@tox] no changes since 2016 it seems
+<e0f>	push to talk should be recommended
+<toxync12->	[tox-user@tox] ah good idea, there could be some recommended features
+<sudden6>	yeah, also Identicons should be optional
+<toxync12->	[tox-user@tox] yeah but if they are implemented they need to use the same standard
+<sudden6>	it gets a lot of work else to build a new client if all the stuff is mandatory
+<sudden6>	yeah, agree
+<toxync12->	[tox-user@tox] true for example:
+<toxync12->	[tox-user@tox] 3.5.1 A client must encode emoticons as Unicode emoji
+<toxync12->	[tox-user@tox] that's required currently
+<toxync12->	[tox-user@tox] not sure why
+<zoff99>	that why there should be a number like ACID test 50/75 for example
+<toxync12->	[tox-user@tox] we want all clients tox.chat to comply with everything that is required
+<sudden6>	I slightly disagree, some features, especially the encryption ones should cause a 0 score automatically if missing
+<toxync12->	[tox-user@tox] so it makes no sense to judge them like that. We want it to be binary
+<sudden6>	what do you think about making a binary table first?
+<sudden6>	just PASS/FAIL for each of the sections in this book
+<toxync12->	[tox-user@tox] good idea, we need to find out which clients comply
+<sudden6>	yep
+<toxync12->	[tox-user@tox] but maybe it should be client devs that do that for their own client?
+<sudden6>	where do we host it?
+<sudden6>	definitely
+<toxync12->	[tox-user@tox] they will fill out the table
+<toxync12->	[tox-user@tox] tox repo seems good
+<toxync12->	[tox-user@tox] since TCS is already there
+<sudden6>	after they have filled it, we can then start to review and check if nobody lied^^
+<sudden6>	do you have access to that repo?
+<toxync12->	[tox-user@tox] sounds good :D
+<sudden6>	I think I don't have
+<toxync12->	[tox-user@tox] I don't
+<toxync12->	[tox-user@tox] jfreegman, nurupo, zero-one
+<toxync12->	[tox-user@tox] and robinli
+<sudden6>	ok, so we have to wait for one of them
+<Jfreegman>	hello
+<toxync12->	[tox-user@tox] and also a bunch of inactive people
+<sudden6>	very good :)
+<toxync12->	[tox-user@tox] Jfreegman: hi, we were talking about https://github.com/tox repository of which you are one of the maintainers
+<sudden6>	we want to add a table with clients supporting the sections of TCS
+<toxync12->	[tox-user@tox] we would like to propose some updates to Tox Client Standard and also create a table of all official clients that comply
+<toxync12->	[tox-user@tox] alright but we can discuss it later or on next meeting
+<Jfreegman>	you should make a github issue for every individual suggestion/change
+<toxync12->	[tox-user@tox] I see
+<toxync12->	[tox-user@tox] the repo is quite dead
+<sudden6>	Jfreegman: but who would actively maintain that? it seems dead
+<Jfreegman>	same people who maintain tox.chat
+<Jfreegman>	maintaining it is easy. just need a good consensus mechanism
+<toxync12->	[tox-user@tox] tox.chat is maintained?! :O
+<Jfreegman>	which is currently github discussion
+<Jfreegman>	yes, mostly nurupo
+<sudden6>	Jfreegman: can you link the discussion?
+<toxync12->	[tox-user@tox] Jfreegman: we want to force existing official clients co comply with TCS
+<Jfreegman>	sudden6: every issue has its own discussion
+<toxync12->	[tox-user@tox] can't we discuss some of it now?
+<Jfreegman>	toxync12-: unfortunately you can't force client developers to do anything, but we've been using that standard to decide which clients we allow to utilize our infrastructure (i.e. build servers, website, wiki)
+<sudden6>	Jfreegman: that's exactly the plan
+<toxync12->	[tox-user@tox] a lot of official clients don't comply
+<toxync12->	[tox-user@tox] we want to give them a deadline
+<sudden6>	make clients comply or they are not listed as "official"
+<Jfreegman>	we made a few exceptions for some older clients like antox
+<Jfreegman>	because it's better to have a mildly non-complaint android client than none at all
+<toxync12->	[tox-user@tox] uTox, qTox don't comply either
+<sudden6>	yeah, those exceptions have been around long enough IMO
+<sudden6>	maybe also the standard needs changes if it's that hard to reach compliance
+<Jfreegman>	i tend to agree, but i'm not sure how active their development is these days. i don't want to run into a situation where we just start delisting all the most popular clients over non-critical issues
+<sudden6>	also the table would be that clients see what is missing atm
+<toxync12->	[tox-user@tox] Antox development isn't active at all currently
+<toxync12->	[tox-user@tox] but uTox and qTox are
+<Jfreegman>	that would be useful if you can find someone to maintain it
+<sudden6>	Jfreegman: I think for the start every client that doesn't want to be removed would enter their state
+<zero-one>	my two-cents is that a standard is worthless if there's no-one around to follow it
+<toxync12->	[tox-user@tox] true
+<zoff99>	please stop saying "offical clients". this is very strange
+<toxync12->	[tox-user@tox] :D
+<Jfreegman>	agree with zero-one and zoff99
+<toxync12->	[tox-user@tox] official clients are the ones listed on tox.chat
+<Toxit>	<MAL> are there unofficial clients?
+<sudden6>	ok, so only clients that have passed the TCS check list are called "official" then :P
+<toxync12->	[tox-user@tox] MAL: yes every client that isn't on there
+<zoff99>	then there are none
+<zoff99>	because as of now, none pass
+<toxync12->	[tox-user@tox] sudden6: we don't know how many passed yet
+<sudden6>	zoff99: exactly, and we want to change that :)
+<toxync12->	[tox-user@tox] we don't know how many pass
+<Jfreegman>	I believe toxic passes
+<Jfreegman>	though i could be wrong
+<sudden6>	ok, so lets setup that table
+<zoff99>	still there are no offical clients. that term does not mean anything
+<toxync12->	[tox-user@tox] it does
+<toxync12->	[tox-user@tox] we have an official website and clients that are on it are official
+<sudden6>	zoff99: then you call it "TCS compliant client", but I'll call it "official" because it's shorter
+<Jfreegman>	one thing I think might be a good idea is to have an additional level of compliance (e.g. optional, mandatory, critical)
+<sudden6>	Jfreegman: agree
+<toxync12->	[tox-user@tox] that is already in the standard
+<toxync12->	[tox-user@tox] some things are required
+<Jfreegman>	critical would be things that are actual security liabilities, so other would be zero tolerance there
+<toxync12->	[tox-user@tox] and some are optional or recommended
+<Jfreegman>	s/other/there
+<toxync12->	[tox-user@tox] Jfreegman: I thought you were familiar with the standard?
+<Jfreegman>	right now mandatory covers both security and compatibility issues. i think they should be treated separately
+<toxync12->	[tox-user@tox] https://tox.gitbooks.io/tox-client-standard/content/index.html
+<sudden6>	for the first start, lets just take all the section numbers from the git book and put them in a MD table?
+<Jfreegman>	i wrote a good chunk of it so...
+<toxync12->	[tox-user@tox] sudden6: good start
+<toxync12->	[tox-user@tox] I thought so
+<sudden6>	Jfreegman: would you be willing to create a repository in github.com/tox/ where some of us have access?
+<Jfreegman>	sudden6: talk to nurupo about that, i'm pretty sure I don't have access
+<toxync12->	[tox-user@tox] you are in the organisation
+<toxync12->	[tox-user@tox] https://github.com/orgs/Tox/people
+<Jfreegman>	i'm just a member
+<toxync12->	[tox-user@tox] oh ok
+<Jfreegman>	well we could give a few people access to the main repo and require that every commit gets signed off by the owner(s)
+<Jfreegman>	something like that
+<toxync12->	[tox-user@tox] should we end the meeting?
+<Toxit>	<MAL> Were you going back over the IRC bridge vs IRC sync?
+<iphy>	Jfreegman: in toktok, every one of the 44 members has commit access to all repositories
+<Toxit>	<MAL> I think iphy was catching up at some point?
+<toxync12->	[tox-user@tox] MAL: it was a question to iphy
+<iphy>	no bad things have happened yet :)
+<toxync12->	[tox-user@tox] hehe
+<iphy>	I think people can be responsible
+<Jfreegman>	iphy: i was not aware of that, interesting
+<sudden6>	I think if one person does evil, there are 43 people to correct it^^
+<iphy>	PR checks and protected branches make that reasonable
+<sudden6>	I think mandatory review is always a good thing, has prevented a lot of silly mistakes already
+<iphy>	so it takes at least 2 malicious people to do harm, and it's very visible
+<toxync12->	[tox-user@tox] the only thing that worries me is that a person can delete a release
+<iphy>	tox-user: true, that's a bit annoying, but it hasn't happened yet
+<iphy>	and it's also visible
+<toxync12->	[tox-user@tox] that's good
+<sudden6>	you also could just re-push the tag
+<iphy>	right, it would just be annoying
+<sudden6>	distributed vcs ftw ;P
+<Jfreegman>	and it's a self-limiting problem. someone does it once and they're out forever
+<iphy>	yep
+<sudden6>	yep
+<Jfreegman>	mhmm
+<sudden6>	tox-user should we assemble our PASS/FAIL list for qtox
+<toxync12->	[tox-user@tox] I already know it
+<sudden6>	can we make it public?
+<toxync12->	[tox-user@tox] I mean I already know where we fail
+<toxync12->	[tox-user@tox] there is only one thing at the moment
+<sudden6>	I think I've seen multiple problems already
+<toxync12->	[tox-user@tox] summary of the meeting: 1. PGC is still as broken as week ago. 2. we don't know of any benefits of IRC gateway over a sync bot at the moment. 3. We need to look into what distros are missing toxcore package and think about creating them. 4. We will force devs of official clients to comply with TCS and create a table about which clients comply
+<sudden6>	for some I have to check the code though
+<sudden6>	tox-user well done *thumbsup*
+<toxync12->	[tox-user@tox] ok so the meeting is over :)
+
+The meeting finished at 19:43:47 UTC+0
