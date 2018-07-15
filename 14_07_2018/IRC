@@ -1,0 +1,180 @@
+ The meeting started at 18:02:06 UTC+0
+ 
+ <toxync12>	[Ingvar@tox] time to start meeting?
+ <sudd3n6>	Ingvar I'm here and ready :)
+ <toxync12>	[Advisor ⛧@tox] >
+ <sudd3n6>	what happened to tox-user?
+ <toxync12>	[Ingvar@tox] he is offline
+ <sudd3n6>	I see, he said he'll be here though
+ <sudd3n6>	well, maybe he joins later
+ <toxync12>	[Ingvar@tox] topics list: https://github.com/tox-user/tox-dev-meetings/tree/master/14_07_2018
+ <toxync12>	[Ingvar@tox] topic #1
+ <toxync12>	[Ingvar@tox] PGC development state
+ <toxync12>	[Ingvar@tox] any updates on pgc?
+ <sudd3n6>	some smaller changes were already merged by iphy
+ <iphy>	yes, we've been merging pieces of it
+ <iphy>	the next bigger thing is tox serialisation
+ <iphy>	state file management
+ <toxync12>	[Ingvar@tox] https://github.com/TokTok/c-toxcore/issues/960 <= looks like bug with toxync was caused by toxync, wasn't it?
+ <toxync12>	[Ingvar@tox] iphy: how groups in pgc are saved now?
+ <sudd3n6>	for, toxync, yes I think envshs modification could be the problem
+ <toxync12>	[Ingvar@tox] anything else that should be done for pgc?
+ <toxync12>	[tox-user@tox] hi everyone
+ <sudd3n6>	tox-user hi
+ <toxync12>	[Ingvar@tox] hi tox-user
+ <sudd3n6>	tox-user I'm starting the qTox TCS doc atm
+ <toxync12>	[tox-user@tox] sudd3n6 your message isn't visible in toxync ;O
+ <toxync12>	[tox-user@tox] nice
+ <toxync12>	[Ingvar@tox] tox-user: we're discussing pgc right now
+ <toxync12>	[tox-user@tox] I see. I assume still no progress?
+ <sudd3n6>	tox-user slight progress
+ <sudd3n6>	> 
+ <sudd3n6>	[20:05] <iphy> yes, we've been merging pieces of it
+ <sudd3n6>	[20:05] <iphy> the next bigger thing is tox serialisation
+ <sudd3n6>	[20:05] <iphy> state file management
+ <sudd3n6>	iphy asked me to write a spec for this state file thing, but I can't allocate enough time for it atm
+ <toxync12>	[Ingvar@tox] what we are going to save in save file?
+ <iphy>	ingvar: they use global mutable function pointers to break the api layering
+ <sudd3n6>	I think the group keys? IDK honestly
+ <iphy>	we're still going to save the same things, but we can't merge this like this
+ <sudd3n6>	so the new code saves the same infos as the old code, but does so in a different way?
+ <toxync12>	[Ingvar@tox] anything else about pgc?
+ <sudd3n6>	hast the remaining bug with "unable to write to group" been found? did zugz find something in that regard?
+ <toxync12>	[Ingvar@tox] time for next topic
+ <toxync12>	[Ingvar@tox] AV improvements [ingvar1995]
+ <toxync12>	[Ingvar@tox] https://github.com/TokTok/c-toxcore/pull/999
+ <sudd3n6>	foxkjrdyezstogcr: ↑
+ <sudd3n6>	> "171 hidden items" | welll....
+ <sudd3n6>	iphy: you rebased this for zoff, do you know what it's about?
+ <sudd3n6>	> "+28,984 −1,078" O_o
+ <iphy>	sudd3n6: yeah
+ <iphy>	I don't know, I haven't looked at it
+ <toxync12>	[tox-user@tox] I thought the focus was supposed to be on pgc?
+ <toxync12>	[tox-user@tox] what happened?
+ <sudd3n6>	TBH, I won't touch this code, ever
+ <iphy>	tox-user: that's still the case
+ <iphy>	I spent 10 minutes on that rebase
+ <toxync12>	[Ingvar@tox] I guess zoff added new a/v support? is it better than current av?
+ Modus	ChanServ gibt zoff99 Operator-Status.
+ <iphy>	because zoff is working on x264
+ <iphy>	so I rebased that on master
+ <iphy>	just so future development doesn't diverge from master even more
+ <toxync12>	[tox-user@tox] right but there was a lot of other PRs in toktok repo
+ <iphy>	I've spent most of my time merging bits of PGC
+ <toxync12>	[tox-user@tox] but nothing with pgc
+ <iphy>	tox-user: most of those were PGC related
+ <toxync12>	[Ingvar@tox] what is current state of this pr?
+ <iphy>	which one? PGC?
+ <toxync12>	[Ingvar@tox] no, av
+ <toxync12>	[Ingvar@tox] is it tested with any clients?
+ <toxync12>	[tox-user@tox] possibly with trifa
+ <iphy>	yes, zoff99 uses it with trifa
+ <toxync12>	[Ingvar@tox] does trifa use it instead of current av or it uses both av?
+ <iphy>	the former
+ <iphy>	they are compatible
+ <toxync12>	[Ingvar@tox] cool
+ <toxync12>	[Ingvar@tox] is h.264 ok for using in toxcore? can it be used in gplv3 project?
+ <iphy>	unsure, I'm still travelling, but once I'm more grounded again I'll ask a lawyer
+ <zugz>	<@sudd3n6> hast the remaining bug with "unable to write to group" been found? did zugz find something in that regard?  <--- no, I don't understand that bug yet
+ <zugz>	found some other bugs though
+ <toxync12>	[tox-user@tox] in pgc?
+ <zugz>	yeah
+ <toxync12>	[tox-user@tox] yay more bugs
+ <sudd3n6>	ok, can you maybe add them to the PGC tracker project?
+ <toxync12>	[Ingvar@tox] >I'll ask a lawyer
+ <toxync12>	[Ingvar@tox] unfortunately it wasn't done before starting development...
+ <zoff99>	zugz youre going to like to ToxCon t-shirt alot :P
+ <toxync12>	[Ingvar@tox] hello zoff
+ <toxync12>	[tox-user@tox] yeah why open a PR with code we might not be able to use?
+ <iphy>	tox-user: there is a lot of code in there
+ <iphy>	not just x264
+ <zugz>	well with some I might prefer to just fix them rather than open bugs for them
+ <iphy>	we want at least some of those changes
+ <toxync12>	[tox-user@tox] ok
+ <toxync12>	[Ingvar@tox] zoff, please tell us about your av
+ <iphy>	zugz: if it's not too much effort, add a test that exposes the bug
+ <toxync12>	[tox-user@tox] omg more tests
+ <sudd3n6>	zugz: hmm, also ok, but the issues with a few words would help tracking :)
+ <iphy>	I wrote 2 tests that expose 3 bugs (one accidentally as I was trying to expose another bug)
+ <iphy>	if it's too much effort, never mind
+ <toxync12>	[Ingvar@tox] zoff99: ping
+ <toxync12>	[tox-user@tox] is there anything cool about that new av code?
+ <toxync12>	[tox-user@tox] why do we want it?
+ <toxync12>	[tox-user@tox] iphy you said we needed some of the code from that PR
+ <zoff99>	iphy, in what .h file has current_time_monotonic moved now?
+ <iphy>	zoff99: mono_time.h
+ <toxync12>	[tox-user@tox] ok let's move on to another topic
+ <toxync12>	[Ingvar@tox] thanks for ignoring questions about your code, zoff99
+ <toxync12>	[tox-user@tox] since nobody wants to explain
+ <toxync12>	[Ingvar@tox] yes, next topic
+ <toxync12>	[Ingvar@tox] TCS [tox-user]
+ <sudd3n6>	ok
+ <toxync12>	[tox-user@tox] yeah so we were gonna remove all official clients if they don't follow the standard
+ <toxync12>	[tox-user@tox] where do we start?
+ <sudd3n6>	How long do you want to give to implement TCS? I'd say 3 months
+ <toxync12>	[Ingvar@tox] I think we should start from reviewing and updating TCS
+ <toxync12>	[tox-user@tox] I don't know but 3 months doesn't sound bad
+ <toxync12>	[tox-user@tox] yeah good idea Ingvar
+ <toxync12>	[tox-user@tox] there are some weird things in it
+ <toxync12>	[Ingvar@tox] at least we should disallow using custom toxcore, allow markdown and auto accept of some types of files
+ <sudd3n6>	I'll open a PR for Identicons, lets see if that gets any responses
+ <zoff99>	disallow custom toxcore? what is this supposed to mean?
+ <iphy>	zoff99: maybe you can briefly answer the question about what has changed in your video branch
+ <zoff99>	not sure. all thats said in these "meetings" is making me mildly aggressive
+ <toxync12>	[Ingvar@tox] anything else about tcs?
+ <toxync12>	[tox-user@tox] wait
+ <sudd3n6>	I have created a PR for Identicons in TCS now https://github.com/Tox/Tox-Client-Standard/pull/35
+ <toxync12>	[tox-user@tox] it's good idea to disallow custom toxcore and allow markdown
+ <toxync12>	[tox-user@tox] so when and how do we start to add those changes?
+ <sudd3n6>	nurupo Jfreegman how many people have to agree to this?
+ <toxync12>	[Ingvar@tox] not sure that we need identicons standard.
+ <sudd3n6>	or who?
+ <toxirc>	<tox-user> I don't know :/ maybe let's open a PR like you said
+ <toxirc>	<tox-user> then we will see
+ <zoff99>	i want to have clarified about the term "official clients" since tox-user is now using that term in issues in other repositories
+ <zoff99>	and hurting development
+ <toxirc>	<tox-user> woah sounds serious
+ <toxirc>	<tox-user> serious accusations
+ <toxirc>	<tox-user> Ingvar: I think we do need a standard for identicons because they will not be so cool if every client makes them differently
+ <toxync12>	[Ingvar@tox] that's ok. every client can have tis own design
+ <toxync12>	[Ingvar@tox] and identicons are part of this design too
+ <toxirc>	<tox-user> but then they will look differently for everyone
+ <sudd3n6>	I agree with tox-user, it supports the common things in Tox, like how the ToxID should be always available
+ <toxirc>	<tox-user> it will be confusing
+ <toxirc>	<tox-user> we can create a PR for that and discuss it in there
+ <zoff99>	i would still like an answer to "offical clients" please
+ <toxirc>	<tox-user> are we going to come up with a deadline for complying with TCS?
+ <toxirc>	<tox-user> or another time?
+ <toxync12>	[Ingvar@tox] we should discuss deadline after tcs update
+ <toxirc>	<tox-user> ok so that's all I wanted to ask about TCS
+ <sudd3n6>	then we need sort of a deadline for the TCS update or we will discuss endlessly^^
+ <toxirc>	<tox-user> hahaha true
+ <sudd3n6>	proposal deadline TCS update 1months = on the 4th tox-dev meeting from now on
+ <sudd3n6>	= 4th of August UTC+0
+ <sudd3n6>	what a great coincidence :D
+ <toxirc>	<tox-user> what will we have until then?
+ <toxirc>	<tox-user> :D
+ <zoff99>	i would still like an answer to "offical clients" please ? what is this term
+ <toxirc>	<tox-user> what don't you understand about it?
+ <zoff99>	there is no such thing. i also ask iphy
+ <sudd3n6>	All proposals that made it into TCS are affected by the deadline to implement, the rest will be in a future revision.
+ <toxirc>	<tox-user> sounds good
+ <toxirc>	<tox-user> do you also think there is no such think as an official website?
+ <toxirc>	<tox-user> *thing
+ <zoff99>	can someone else also please give their opinion? very strange this
+ <toxirc>	<tox-user> maybe you should suggest it as a topic for the next meeting?
+ <zoff99>	well since there is no clear guideline, it means anybody can now use what ever terms they fancy
+ <zoff99>	nice.
+ <zugz>	I remember there being some confusion over the term "official clients page", which could be read as "(official clients) page" rather than "official (clients page)", is that the problem here?
+ <toxirc>	<tox-user> is the meeting over now?
+ <zoff99>	the issue, is pretty clear i think
+ <sudd3n6>	zugz: no, zoff99 has a problem with some people calling clients on tox.chat "official clients"
+ <zoff99>	only 1 people actually
+ <toxirc>	<tox-user> summary: 1. PGC still sucks. 2. We don't know what is with this new av code and what it is for. 3. We will start creating PRs for TCS improvements
+ <zoff99>	either there are "offical clients" , then i want to know which clients they are and who decided upon this term
+ <sudd3n6>	tox-user not so positive ;P
+ <zoff99>	or there are no such things
+ <toxirc>	<tox-user> heh :D
+ <toxirc>	<tox-user> ok I guess it's over
+ 
+The meeting ended at 19:06:45 UTC+0
