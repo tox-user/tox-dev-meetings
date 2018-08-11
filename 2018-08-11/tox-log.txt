@@ -1,0 +1,125 @@
+tox-user: hi everyone
+tox-user: are we starting the meeting?
+tox-user: a little late I know
+toxync: [iphy@irc] I'm here
+tox-user: great
+tox-user: list of topics: https://github.com/tox-user/tox-dev-meetings/tree/master/2018-08-11
+toxync: [iphy@irc] tox-user: minpgc is ready for review
+tox-user: first topic for today Progress of rewriting PGC
+tox-user: nice
+tox-user: is there PR open?
+toxync: [iphy@irc] no, zugz is still testing a bit locally, but presumably there will be a PR soon
+tox-user: oh ok so it's in testing phase
+tox-user: cool
+tox-user: have you tested it as well?
+toxync: [iphy@irc] not yet
+toxync: [iphy@irc] I was fixing some toxav issue today
+toxync: [iphy@irc] https://github.com/TokTok/c-toxcore/pull/1064 needs review
+toxync: [iphy@irc] also needs zoff to test it
+tox-user: is it serious?
+toxync: [iphy@irc] yes, it breaks group av
+toxync: [iphy@irc] because there are no tests for group av at all
+toxync: [iphy@irc] (who needs those useless tests, right?)
+tox-user: yes who needs them :)
+tox-user: next topic is: Announcement of new group bot
+tox-user: https://github.com/tox-user/ChatBot
+tox-user: it's in testing phase
+tox-user: works pretty well but freenode is causing issues right now with their stupid registration requirement
+tox-user: the bot has IRC syncing, autoinvite, logs
+toxync: [iphy@irc] cool
+tox-user: last topic I wanted to talk about: Forking Tox Client Standard
+toxync: [iphy@irc] tox-user: https://freenode.net/kb/answer/registration#logging-in
+ra: tox-user: could u plant in bot discord feature? for gamers?
+ra: cause lots of gamers using discord... for gameplay and so on..
+ra: game talk ...
+tox-user: iphy: oh that's good to know
+tox-user: very helpful
+toxync: [anthonybilinski1@irc] what bot features would you want?
+tox-user: what discord features?
+tox-user: it will have audio channels
+ra: directly writing
+ra: discord bridge..
+tox-user: sorry I'm not planning to add a discord bridge. I don't know how discord works and it would be a lot of work for me
+ra: ok..
+tox-user: but I can see that it would be useful for gamers
+ra: no problem... 
+ra: yess
+ra: cause over 10 million gamers using discord
+tox-user: wow a lot
+ra: and when we catch and win these grp for us.. we can win too as community
+tox-user: true
+ra: cause discord are cpu high usage...
+tox-user: really?
+ra: and aint cpufriendly
+ra: yess
+tox-user: Tox isn't. Tell them to use Tox :D
+toxync: [iphy@irc] how about the TCS fork?
+tox-user: it turns out maintainers of TCS repo aren't active so we can't add our changes to it
+tox-user: we need to fork it, give permissions to some active developers and then change it together
+tox-user: https://github.com/Tox/Tox-Client-Standard/pull/35
+toxync: [iphy@irc] ok
+tox-user: it's not surprising since they are the same people who maintain tox.chat
+tox-user: we asked someone for repo access but they said to just make a PR
+tox-user: so the only choice is to fork it somewhere
+tox-user: so in what repo should it be?
+tox-user: probably one that a lot of devs would have access to. So maybe in toktok?
+ra: back
+toxync: [iphy@irc] ok
+tox-user: I'm back
+tox-user: so are we gonna fork it in toktok?
+tox-user: or somewhere else?
+toxync: [iphy@irc] I'm not happy with the name
+tox-user: Tox Client Standard name?
+toxync: [iphy@irc] maybe spec-client?
+tox-user: what's wrong with the current name?
+toxync: [iphy@irc] it doesn't fit all the other names
+toxync: [iphy@irc] https://toktok.ltd/repos
+tox-user: I would prefer to keep the name since it makes sense, people know it and there is no good reason to change it
+tox-user: maybe we should host it somewhere else if it doesn't fit toktok
+toxync: [iphy@irc] let's make a separate org for it then
+tox-user: btw how many orgs do we have now?
+tox-user: we have toktok, tox
+tox-user: is there more?
+toxync: [iphy@irc] zoxcore :)
+tox-user: haven't heard of that one :D
+toxync: [iphy@irc] it was created today
+tox-user: nice
+tox-user: for what?
+toxync: [iphy@irc] for zoff
+tox-user: I see
+tox-user: maybe we will create a new one then
+tox-user: but I thought there was one more with some people in it
+toxync: [iphy@irc] I don't know
+toxync: [anthonybilinski1@irc] it seems like toktok is a pretty logical place for it, is the name the only problem? renaming seems like less burden than making new orgs
+tox-user: toktok is weird with their names
+toxync: [anthonybilinski1@irc] are there more topics?
+tox-user: does it matter what organization? maybe someone should just create a repo and give people write access?
+tox-user: no, this is the last one
+toxync: [anthonybilinski1@irc] I think it makes the spec more official and more co-operative if it's controlled by a group like TokTok instead of a single user or new org that has no other projects
+tox-user: tox organization on github is dead, toktok organization doesn't care about it
+tox-user: maybe qTox? :D
+toxync: [anthonybilinski1@irc] I think it would be bad to have a general client design guideline doc controlled by a single client, it loses all legitimacy
+tox-user: then I'm out of ideas
+tox-user: wait wasn't there an organization called Tox Client Developers or something?
+toxync: [anthonybilinski1@irc] what makes TokTok organization not care? because iphy doesn't like the name?
+tox-user: because he said that once
+toxync: [iphy@irc] toktok organisation is not just me
+toxync: [endoffile@irc] there is a tox-clients organization https://github.com/tox-clients
+toxync: [iphy@irc] I don't care, but maybe others do, and then we should work on it
+tox-user: thank you!
+toxync: [iphy@irc] tox-clients sounds good
+tox-user: not many people come to this meeting
+toxync: [anthonybilinski1@irc] yeah that makes sense, might be good to pull in some more client devs from different projects
+tox-user: yeah
+tox-user: we need to ask the maintainers for that
+tox-user: !users
+toxync: [toxync12@irc] There are 77 users, [toxync12@irc] +CcxWrk, +Copenhagen_Bram, +DeX77, +GDR[m], +Hunger-, +Just[m], +Just[m]1, +LittleVulpix|Gho, +MissingTwins[m], +Myrl-saki, +Piraty, +PyroLagus, +SkyzohKey[m], +Sorunome, +Yaniel, +ahve, +albel727, +anonus, +anthonybilinski, +arza, +chainsawbike, +chron0, +coy[m], +dan-, +dontstalkmepls[m, +drEquivalent, +drEquivalent2, +eater, +endoffile, +esainane, +f8l, +foxkjrdyezstogcr, +gzs[m], +gzs[m]1, +halbeno, +hxgkcgytxmgmxg[m, +kcg295, +kivutar, +koshii, +mario, +matt-h, +mitfree[m], +neunon, +orzo, +ranter, +return0e_, +sonOfRa, +strfry, +szh7379[m], +toxirc, +toxync12, +ullbeking, +vindelschtuffen, +xYuusha, +xek, @CeBe, @ChanServ, @Emcy_, @Impyy, @Jfreegman, @SmokedCheese, @clever, @e0f, @iphy, @nicoo, @nurupo, @robinli, @tux3, @wiiaam, @zero-one, @zugz, Guest15105, anthonybilinski1, danso, dxld, errst, kurnevsky currently on IRC
+tox-user: zugz, tux3, tux3
+toxync: [endoffile@irc] robinli is in it he might be able to add people
+tox-user: sorry not zugz, I meant zetok
+tox-user: yeah that's the name I didn't copy correctly
+tox-user: they don't seem to be here but we need to ask them about it
+toxync: [anthonybilinski1@irc] sure, we can follow up on github from the existing spec PRs after the meeting
+tox-user: the meeting is over then
+tox-user: and we actually made a decision today
+toxync: [anthonybilinski1@irc] haha
