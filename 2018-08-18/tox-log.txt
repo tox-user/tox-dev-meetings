@@ -1,0 +1,266 @@
+tox-user: hello
+tox-user: time to start the meeting
+toxync: [iphy@irc] hi
+toxync: [robinli@irc] Hello.
+tox-user: list of topics https://github.com/tox-user/tox-dev-meetings/tree/master/2018-08-18
+toxync: [anthonybilinski1@irc] hello hello
+tox-user: 1. Progress of rewriting PGC
+tox-user: what's the progress on PGC?
+toxync: [iphy@irc] zugz fixed a memory leak caught by one of our useless tests
+tox-user: nice
+toxync: [iphy@irc] I've reviewed the logic, and it seems sound
+toxync: [iphy@irc] I'd like another pair of eyes over it before we merge it
+tox-user: the useless code review
+toxync: [zugz@irc] I've got the test working consistently
+toxync: [zugz@irc] (in the process of testing it on my machine, 77 runs without failure so far)
+tox-user: but you also need it tested by human?
+toxync: [zugz@irc] we need #1095 to make it run in reasonable time
+toxync: [zugz@irc] tox-user: that would be good!
+toxync: [zugz@irc] I tested a little myself using toxic, and it seems to work as intended
+tox-user: I might take a look
+toxync: [anthonybilinski1@irc] iphy: pair of eyes on PGC as a whole, or on the test specifically
+toxync: [iphy@irc] anthonybilinski1: on https://github.com/TokTok/c-toxcore/pull/1069
+toxync: [iphy@irc] all of it
+toxync: [iphy@irc] mostly the code itself
+toxync: [iphy@irc] the group code
+tox-user: have you read all of it?
+toxync: [iphy@irc] several times
+toxync: [iphy@irc] it's not a lot of code
+toxync: [robinli@irc] It's a small change now that we threw out the old PR.
+tox-user: oh nice
+tox-user: I hope other people review it soon then
+tox-user: and we finally get this feature
+toxync: [robinli@irc] I'm looking over it.
+tox-user: awesome
+toxync: [robinli@irc] It would be good if more people did though.
+tox-user: assign everyone :D
+toxync: [anthonybilinski1@irc] I'll try to take a look after this
+tox-user: it's the biggest feature of this year
+tox-user: next topic: ToxCon 2018 details
+toxync: [iphy@irc] if you review it, focus on the logic
+toxync: [anthonybilinski1@irc] ok
+tox-user: what are the details? there is no blog post yet so some of us don't know
+toxync: [iphy@irc] there is a specification in that PR
+tox-user: it's gonna be in October in Vienna, there will be tshirts that people can buy and sponsored tickets that will pay for speaker's dinners
+tox-user: what else?
+toxync: [anthonybilinski1@irc] will the conference be recorded/streamed for people who can't attend?
+toxync: [robinli@irc] It won't be recorded, but last year we streamed it.
+toxync: [robinli@irc] (Via Tox)
+toxync: [robinli@irc] Hopefully it'll work better this year.
+tox-user: hmm but Tox isn't good for streaming to multiple people?
+tox-user: why not set up a server?
+tox-user: it would be good to stream it via Tox but it's not what Tox was made for
+toxync: [robinli@irc] We had a bot that took the conference input and accepted video calls.
+tox-user: ok so that's good enough?
+toxync: [robinli@irc] It's what we have set up.
+toxync: [robinli@irc] It worked fine last year.
+tox-user: that's good
+toxync: [zugz@irc] yeah, it worked
+toxync: [robinli@irc] zugz listened to me talk about Tox.
+toxync: [iphy@irc] why wasn't tox made for conference calls?
+toxync: [robinli@irc] And we got to see the top of their head.
+toxync: [zugz@irc] hmm, maybe I had problems with my video setup? I don't remember now
+toxync: [zugz@irc] audio worked well at least
+toxync: [zugz@irc] and I think any problems were at my end
+toxync: [robinli@irc] No, your webcam was just pointed at the top of your head. :P
+toxync: [zugz@irc] that was definitely my fault then!
+tox-user: iphy: I assumed it needed a lot of bandwidth and CPU but if they say it works I believe them
+tox-user: :D
+tox-user: ToxCon is on 26 October right?
+toxync: [robinli@irc] 12th-14th of October.
+toxync: [robinli@irc] https://tox.fahrplan.zoff.cc/index.html
+toxync: [robinli@irc] :P
+tox-user: ah ok
+tox-user: next topic
+tox-user: What improvements would you make in Tox Client Standard?
+tox-user: we got new people added to Tox organisation on github and they have write access to TCS repo now
+tox-user: now we can make some changes. What should they be?
+Ingvar: avatars saving, markdown, stickers...
+toxync: [iphy@irc] nurupo: this article is explaining very basic things about pointers with lots of emphasis as if it were explaining something outrageous or complicated
+tox-user: avatars saving - yeah we need to put correct paths there
+tox-user: there is a PR for identicons made by sudden6
+tox-user: markdown will be useful too but there is no implementation for stickers yet as far as I know?
+toxync: [robinli@irc] "So, what is a pointer? I donâ€™t know the full answer to this. In fact, this is an open area of research."
+tox-user: lol
+tox-user: nobody knows what a pointer is
+toxync: [robinli@irc] What about markdown is needed in the TCS?
+Ingvar: for avatars we should discuss saving for encrypted profiles
+toxync: [robinli@irc] It's readable in a nice format even if not used to generate html or whatever.
+Ingvar: md is disallowed right now in tcs :)
+toxync: [iphy@irc] ingvar: can you make a PR into toktok/c-toxcore with your NGC?
+toxync: [anthonybilinski1@irc] some standardization of text formatting across clients would be good, either from TCS
+toxync: [nurupo@irc] iphy: i didn't know that pointers with same value are not interchangable
+tox-user: robinli: TCS doesn't allow markdown in clients. We need to change that
+toxync: [robinli@irc] tox-user: Fair enough.
+tox-user: avatars for encrypted profiles is also important
+tox-user: how are we gonna do it?
+tox-user: currently avatars leak who your friends are
+toxync: [nurupo@irc] tox-user: which TCS paragraph says that markdown is disallowed?
+tox-user: because of file names that contain public keys
+toxync: [zugz@irc] you mean it doesn't allow automatically rendering markdown, right?
+tox-user: nurupo: give me a minute to find it
+toxync: [robinli@irc] He's probably thinking about "A receiving client will make a best-effort to display text exactly as it was sent, and must not transform the text in any way."
+tox-user: yes that's one of them
+tox-user: there is another one that is similar
+toxync: [nurupo@irc] ah, this
+toxync: [nurupo@irc] i was like "i don't remember TCS mentioning markdown at all"
+toxync: [nurupo@irc] alright then
+tox-user: if you look at avatars section
+tox-user: it says to use some weird paths
+tox-user: it says to use the root of client's directory
+Ingvar: root of directory with selected profile
+toxync: [nurupo@irc] ><toxync12> [tox-user@tox] because of file names that contain public keys <-- wasn't thre a PR open for improvement of avatars?
+toxync: [zugz@irc] maybe it should still be that the default must be to just directly display the text?
+toxync: [nurupo@irc] i remember tux3 working this
+tox-user: nurupo: I don't know anything about it
+tox-user: zugz: but then there won't be markdown or mentions
+toxync: [nurupo@irc] https://github.com/Tox/Tox-Client-Standard/pull/24
+tox-user: qTox highlights text when user is mentioned in groupchat so I guess  that's against TCS too
+toxync: [zugz@irc] highlighting is different maybe... but serious processing of the text could lead to unpleasant surprises
+toxync: [nurupo@irc] hm, it doesn't address the pk.png name of avatars
+toxync: [zugz@irc] e.g. someone pastes a shell script with comments
+toxync: [tux3@irc] nurupo, last I remember in qTox, we encrypted avatars if your profile had a password. If not, well your contact list is in plaintext anyways
+tox-user: shame
+toxync: [nurupo@irc] i tihnk someone was suggesting to use hash(pk).png instead
+toxync: [zugz@irc] and the # comments are interpreted as titles...
+tox-user: tux3: in ini file?
+toxync: [zugz@irc] thinking about it, autorendering markdown sounds like a bad idea even as an option
+toxync: [tux3@irc] toxync12, the filename was IIRC a hash derived from the password (?)
+toxync: [tux3@irc] tox-user ^
+tox-user: pk in file name doesn't make that much sense though. An average user will not know what they are looking at and if they want to find an avatar of their friend they will look  for a specific picture anyway
+toxync: [nurupo@irc] tux3: that's the export format though
+tox-user: tux3: of the ini file? no, it's sored in ~/.config/tox/profile_name.ini
+toxync: [anthonybilinski1@irc] zugz: I agree markdown is probably too wide, but things like consistent quote syntax across clients seems good to me
+toxync: [nurupo@irc] tux3: wouldn't you decrypt avatars on export?
+toxync: [tux3@irc] nurupo, tox-user, oh yeah sorry I might be missing some context. Of course for exports we do decrypt
+toxync: [nurupo@irc] does qTox support exporting though?
+tox-user: but normally they aren't encrypted right? they are sitting there on the hard drive
+tox-user: yes but only of the .tox file
+toxync: [nurupo@irc] heh, so muh confusion here
+toxync: [nurupo@irc] *much
+toxync: [tux3@irc] I need to read the backlog I think :]
+tox-user: tux3: we are talking about avatars. Their file name is a PK of the owner. Which means it leaks your contact list even if your profile is encrypted. That's what TCS says we should do
+tox-user: go to ~/.config/tox/avatars
+tox-user: you will see a bunch of images with public keys as their file name
+tox-user: zugz: are you against markdown in Tox clients?
+toxync: [zugz@irc] tok-user: maybe it depends on the implementation - I'd say clients should display every character that was sent in the proper order, but applying stylings could be ok
+tox-user: what implementation do you recommend?
+toxync: [zugz@irc] none, or one which does that
+toxync: [zugz@irc] this is just a gut reaction
+toxync: [anthonybilinski1@irc] what about protocol impl of things like code blocks / quote clocks so that clients don't have to parse characters from the message?
+toxync: [anthonybilinski1@irc] currently right now having tags are clients only option for styling
+tox-user: please implement code blocks in clients so we can send code
+toxync: [anthonybilinski1@irc] either TCS needs to have something like {code}int main(void){/code} where each client consumes the code tags, or toxcore needs to have a message format so that clients can really display all text received as is
+toxync: [nurupo@irc] zero-one: interested in a TCS discussion? ^
+tox-user: in qTox we have ``` ``` markdown
+toxync: [anthonybilinski1@irc] but it's not cross-client and the characters are both used for formatting and displayed at the same time by default, which is kind of ugly
+tox-user: you can choose to not display them in settings
+toxync: [nurupo@irc] rendering markdown would need to be an optional thing, not required, right?
+toxync: [nurupo@irc] also, note that there are many different incompatible markdown flavors and library implementations
+tox-user: yes, optional but if it's done it should adhere to our standard
+toxync: [nurupo@irc] so two clients might support markdown, but differently
+tox-user: just like we will do with identicons. They are not required but if they are implemented it should use the same algorithm
+toxync: [nurupo@irc] that's what i'm getting at
+toxync: [anthonybilinski1@irc] seems reasonable to be optional, should have a graceful defined fallback. Code blocks could be as simple as change to a monospace font and tabbing in the whole block or something
+toxync: [nurupo@irc] there is no single algorithm
+tox-user: for what?
+toxync: [nurupo@irc] there are many different markdown libraries doing different things, as well as there are many markdown flavors
+toxync: [nurupo@irc] ><nurupo> also, note that there are many different incompatible markdown flavors and library implementations
+tox-user: that's why I'm saying we need to specify it
+tox-user: like we did with identicons in that PR
+tox-user: and like we do with avatars and lots of things
+toxync: [nurupo@irc] so, you want to write a markdown specification and make clients implement their own markdown library?
+tox-user: no
+tox-user: write how it's supposed to work and don't care how it's done
+toxync: [iphy@irc] https://commonmark.org/
+toxync: [nurupo@irc] because if they use some existing library, one client will render markdown differently than another
+toxync: [anthonybilinski1@irc] imo markdown is probably way broader than we need/want in chat clients, it seems like bold/italics/code/quote are pretty much all that are needed, not tables and titles that markdown supports
+toxync: [nurupo@irc] e.g. one client might support tables but another not
+toxync: [nurupo@irc] with TCS saying nothing about tables
+toxync: [zugz@irc] if we did want a standard for formatted text, https://tools.ietf.org/html/rfc1896 (text/enriched) might be more appropriate than markdown
+tox-user: I don't know what to do about tables then
+toxync: [nurupo@irc] heh, it's not just tables
+tox-user: other things are less complicated
+toxync: [nurupo@irc] zugz: is there actually an rfc for markdown?
+tox-user: tables are not as common as code blocks, italics, bold etc
+tox-user: so I don't know what about them
+toxync: [zugz@irc] nurupo: seems not
+toxync: [iphy@irc] there is commonmark
+toxync: [iphy@irc] which is not an rfc
+toxync: [iphy@irc] but the closest thing to one that exists for markdown
+tox-user: there is also bbcode
+toxync: [zugz@irc] oh actually there is: 7763 and 7764
+toxync: [iphy@irc] zugz: interesting
+toxync: [iphy@irc] 2016
+toxync: [nurupo@irc] zugz: that doesn't look like markdown specification to me
+toxync: [zugz@irc] nurupo: agreed
+toxync: [zugz@irc] "variant: An optional identifier of the specific Markdown variant that the author intended."
+toxync: [iphy@irc] I think we should agree on one variant
+toxync: [zugz@irc] and do what with it exactly?
+tox-user: can't we just specify the most common tags on our own?
+toxync: [anthonybilinski1@irc] have we decided on markdown instead of a much smaller set of a few formatting tags? :D
+tox-user: :D
+toxync: [iphy@irc] if we use markdown, then we should agree on one variant
+tox-user: we know
+tox-user: but now we can't decide which
+tox-user: I suggest we use the most popular one
+tox-user: maybe the one github uses
+tox-user: what about this? https://tools.ietf.org/html/rfc7763
+toxync: [nurupo@irc] tox-user: anyway, my point that that TCS is about client interoperability. if it suggests implementing markdown, then all clients should display it the same as to avoid a confusion when you sent a markdown without any tables, but the receiver's client rendered it as tables. tables are just an example here. if there was some markdown spec and it was supported by common markdown library implementations for c, java, etc. such that you could restrict
+toxync: [nurupo@irc] the libraries to use only that specific standard and not render anything extra that is not in it, then that would be fine, but i don't think there is a well-defined markdown spec, nor libraries that can restrict to using only that spec in common programming languages
+tox-user: qTox has its own implementation so I don't know
+tox-user: but I agree that all clients need to display it in the same way
+tox-user: are you saying it's not possible using existing libraries?
+toxync: [zugz@irc] so what are you actually talking about here, sorry? If I write a message "# blah" to a friend with a client using markdown rendering, what will they see?
+tox-user: the same what yo usee
+tox-user: if your client supports markdown
+toxync: [zugz@irc] so "# blah" but in a bigger point size than normal?
+toxync: [zugz@irc] (which certainly isn't what I would see, because I use toxic)
+tox-user: yes and I think bold too? not sure
+tox-user: toxic can probably print bold at least?
+toxync: [zugz@irc] ok... so if I paste a shell script, the comment lines will be outsized, but at least if they copy and paste it will come out right?
+toxync: [zugz@irc] (depends on the terminal, but typically yes)
+tox-user: you can put it inside of: ``` ```  then it will be nicely formatted. We could add syntax highlighting too if we want
+toxync: [zugz@irc] why not do this more properly, with a MIME Content-Type negotiated at the start and having the sending client do the work of encoding what the user wants to send
+tox-user: I'm not sure if it's a better way
+toxync: [zugz@irc] fewer surprises
+toxync: [zugz@irc] and more flexible
+tox-user: we don't have to make it that complicated. We don't have to even use markdown, we can use something else that is better standardised
+toxync: [zugz@irc] it's the idea of interpreting the typed message as something other than plaintext that bothers me
+tox-user: why?
+toxync: [zugz@irc] because it's surprising
+tox-user: qTox does this, you can try it
+tox-user: that's why we have TCS to make it not surprising :)
+toxync: [robinli@irc] I don't want my client displaying markdown as formatted text.
+tox-user: they don't implement markdown support?
+toxync: [robinli@irc] I prefer things like *emphasis* and _underline_ and whatever.
+tox-user: so you don't want markdown but your own standard?
+toxync: [robinli@irc] No. I want plain text.
+toxync: [robinli@irc] I'd be pretty annoyed if I pasted code into a client to send it and I'd have to add ``` fences every time.
+tox-user: then don't implement markdown, it will never be a requirement to implement it
+toxync: [robinli@irc] I'm not going to.
+toxync: [nurupo@irc] tox-user: btw, a bit offtopic, but i have seen you uploading meeting irc logs for one of the previous dev meetings into the github repo, i think you should announce that the meeting logs will be publicly available before start of each meeting
+toxync: [zugz@irc] and if you're using a client which displays your text as plaintext, having your conversational partner see your text some other way is surprising
+tox-user: robinli: what's the problem then?
+tox-user: nurupo: I've done that once and I already had this conversation, but I will ask again: why?
+toxync: [anthonybilinski1@irc] robinli: do you want *emphasis* to actually bold, or just leave the text as is and have the user interpret the emphasis?
+tox-user: zugz: same could be said about identicons and yet we use them and we are adding them as standard
+toxync: [robinli@irc] I want the user to see the text as I sent it.
+toxync: [robinli@irc] You could tell I put *emphasis* on a word even though IRC doesn't display formatted text.
+toxync: [zugz@irc] tox-user: don't tell me that, I might find out what an identicon is and start arguing against that too ;)
+tox-user: robinli: we don't plan to have markdown support as a requirement. That would be stupid. We just want to make sure that it is allowed and if client devs add it it will be the same standard
+tox-user: robinli: it does display as bold for me in qTox!
+tox-user: zugz: haha feel free to do that if you have good reasons :)
+toxync: [anthonybilinski1@irc] robinli: that's pretty reasonable, but also seems to make text formatting impossible. Thoughts on different message types in core then to allow for things like code blocks to be transmitted? Then no client interpretation of user characters would be required
+toxync: [iphy@irc] tox-user/nurupo: can you announce the end of the meeting so that we know when the public logs end?
+tox-user: zugz: qTox and Toxygen implement identicons, Venom too I think
+tox-user: iphy: I always announce the end of the meeting. This hasn't ended yet
+toxync: [zugz@irc] tox-user: but having some clients render with plain text and others not is going to lead to confusion
+toxync: [iphy@irc] good then
+tox-user: should we end the meeting? I think it's clear now we won't agree on anything this time
+toxync: [zugz@irc] I paste a shell script, and I'm told it comes out weird...
+toxync: [robinli@irc] zugz: You should talk your contacts into using a reasonable client if your contact says that.
+toxync: [robinli@irc] :D
+tox-user: zugz: similar can be said about identicons, about emoticons too maybe
+toxync: [zugz@irc] please tell me no client has text auto-transformed to emoticons
+tox-user: alright the meeting is over now. We can't agree on one standard yet, we can try another time
